@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% block title %}Blog — {{ site.site_name }}{% endblock %}
+{% block meta_description %}Actualités, conseils et ressources numériques par DAST NEWGEN'SPARK.{% endblock %}
+
+{% block content %}
+
+{# ── PAGE HERO ──────────────────────────────────────────── #}
+<section class="page-hero page-hero--blue" aria-label="Blog">
+  <div class="container">
+    <span class="section-eyebrow">Notre blog</span>
+    <h1 class="page-hero__title">Actualités &amp; <em>Ressources</em></h1>
+    <p class="page-hero__sub">Conseils, tendances, tutoriels et insights pour rester à la pointe du numérique.</p>
+
+    <form class="hero-search" method="get" action="" role="search" aria-label="Rechercher un article">
+      <div class="hero-search__wrap">
+        <i class="bx bx-search hero-search__icon" aria-hidden="true"></i>
+        <input type="search" name="q" value="{{ query }}" class="hero-search__input"
+               placeholder="Rechercher un article..." aria-label="Rechercher">
+        <button type="submit" class="hero-search__btn">Rechercher</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+{# ── CONTENU ────────────────────────────────────────────── #}
+<section class="section" aria-label="Articles">
+  <div class="container">
+    <div class="blog-layout">
+
+      {# ── Articles ─────────────────────────────────────── #}
+      <div>
+
+        {# Indicateurs de filtre actif #}
+        {% if active_category %}
+        <div class="filter-indicator" data-animate="fade-up">
+          <i class="bx bx-filter-alt" aria-hidden="true"></i>
+          Catégorie : <strong>{{ active_category.name }}</strong>
+          <a href="{% url 'blog:list' %}" class="filter-indicator__clear" aria-label="Supprimer le filtre">
+            <i class="bx bx-x" aria-hidden="true"></i>
+          </a>
+        </div>
+        {% endif %}
+        {% if query %}
+        <div class="filter-indicator" data-animate="fade-up">
+          <i class="bx bx-search" aria-hidden="true"></i>
+          Résultats pour : <strong>"{{ query }}"</strong>
+          <a href="{% url 'blog:list' %}" class="filter-indicator__clear" aria-label="Effacer">
+            <i class="bx bx-x" aria-hidden="true"></i>
+          </a>
+        </div>
+        {% endif %}
+
+        <div class="blog-grid">
+          {% for post in page_obj %}
+          <article class="blog-card" data-animate="fade-up">
+            <a href="{{ post.get_absolute_url }}" class="blog-card__img" tabindex="-1" aria-hidden="true">
+              {% if post.cover_image %}
+              <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" loading="lazy">
+              {% else %}
+              <div class="blog-card__img-ph"><i class="bx bx-edit" aria-hidden="true"></i></div>
+              {% endif %}
+            </a>
+            <div class="blog-card__body">
+              {% if post.category %}
+              <a href="{{ post.category.get_absolute_url }}" class="blog-card__cat">{{ post.category.name }}</a>
+              {% endif %}
+              <h2 class="blog-card__title">
+                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+              </h2>
+              {% if post.excerpt %}
+              <p class="blog-card__excerpt">{{ post.excerpt|truncatechars:150 }}</p>
+              {% endif %}
+              <div class="blog-card__meta">
+                <span><i class="bx bx-user-circle" aria-hidden="true"></i> Publié par {{ post.author.display_name }}</span>
+                <span><i class="bx bx-time" aria-hidden="true"></i> {{ post.reading_time }} min</span>
+                <span><i class="bx bx-calendar" aria-hidden="true"></i> {{ post.published_at|date:"d M Y" }}</span>
+              </div>
+            </div>
+          </article>
+          {% empty %}
+          <div class="empty-state">
+            <i class="bx bx-edit-alt" aria-hidden="true"></i>
+            <h2>Aucun article trouvé</h2>
+            <p>{% if query %}Aucun résultat pour "{{ query }}".{% else %}Les articles seront publiés prochainement.{% endif %}</p>
+          </div>
+          {% endfor %}
+        </div>
+
+        {# Pagination #}
+        {% if page_obj.has_other_pages %}
+        <nav class="pagination" aria-label="Pagination">
+          {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if active_category %}&categorie={{ active_category.slug }}{% endif %}" class="page-btn" aria-label="Page précédente">
+            <i class="bx bx-chevron-left" aria-hidden="true"></i>
+          </a>
+          {% endif %}
+
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <span class="page-btn is-active" aria-current="page">{{ num }}</span>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}{% if active_category %}&categorie={{ active_category.slug }}{% endif %}" class="page-btn">{{ num }}</a>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if active_category %}&categorie={{ active_category.slug }}{% endif %}" class="page-btn" aria-label="Page suivante">
+            <i class="bx bx-chevron-right" aria-hidden="true"></i>
+          </a>
+          {% endif %}
+        </nav>
+        {% endif %}
+
+      </div>
+
+      {# ── Sidebar ──────────────────────────────────────── #}
+      <aside class="blog-sidebar">
+
+        {% if categories %}
+        <div class="sidebar-card">
+          <h3 class="sidebar-card__title">
+            <i class="bx bx-category" aria-hidden="true"></i>
+            Catégories
+          </h3>
+          <div class="sidebar-cats">
+            {% for cat in categories %}
+            <a href="{{ cat.get_absolute_url }}"
+               class="sidebar-cat-link {% if active_category.pk == cat.pk %}is-active{% endif %}">
+              {{ cat.name }}
+              <i class="bx bx-chevron-right" aria-hidden="true"></i>
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        {% if featured_posts %}
+        <div class="sidebar-card">
+          <h3 class="sidebar-card__title">
+            <i class="bx bx-star" aria-hidden="true"></i>
+            Articles vedettes
+          </h3>
+          <div class="sidebar-posts">
+            {% for fp in featured_posts %}
+            <div class="sidebar-post">
+              {% if fp.cover_image %}
+              <img src="{{ fp.cover_image.url }}" alt="{{ fp.title }}" class="sidebar-post__thumb" loading="lazy">
+              {% endif %}
+              <div>
+                <a href="{{ fp.get_absolute_url }}" class="sidebar-post__title">{{ fp.title|truncatechars:60 }}</a>
+                <span class="sidebar-post__date">{{ fp.published_at|date:"d M Y" }}</span>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="sidebar-card sidebar-card--cta">
+          <h3>Un projet digital ?</h3>
+          <p>Discutons de vos idées et construisons votre vision ensemble.</p>
+          <a href="{% url 'contact:index' %}" class="btn btn--white btn--block">
+            <i class="bx bx-message-square-dots" aria-hidden="true"></i>
+            Nous contacter
+          </a>
+        </div>
+
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

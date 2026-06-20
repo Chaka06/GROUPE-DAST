@@ -1,0 +1,140 @@
+{% load static %}
+<header class="navbar" id="navbar" role="banner">
+  <div class="container">
+    <div class="navbar__inner">
+
+      {# ── Logo ───────────────────────────────────────── #}
+      <a href="{% url 'home:index' %}" class="navbar__logo" aria-label="DAST NEWGEN'SPARK — Accueil">
+        {% if site.logo %}
+          <img src="{{ site.logo.url }}" alt="{{ site.site_name }}" class="navbar__logo-img">
+        {% else %}
+          <img src="{% static 'images/logo/dast-logo.jpg' %}" alt="DAST NEWGEN'SPARK" class="navbar__logo-img">
+        {% endif %}
+      </a>
+
+      {# ── Desktop Navigation ─────────────────────────── #}
+      <nav class="navbar__nav" role="navigation" aria-label="Navigation principale">
+        <ul class="navbar__menu" role="list">
+
+          <li class="navbar__item">
+            <a href="{% url 'home:index' %}" class="navbar__link {% if request.resolver_match.app_name == 'home' %}is-active{% endif %}">
+              Accueil
+            </a>
+          </li>
+
+          <li class="navbar__item navbar__item--dropdown">
+            <a href="{% url 'services:list' %}" class="navbar__link {% if request.resolver_match.app_name == 'services' %}is-active{% endif %}"
+               aria-haspopup="true" aria-expanded="false">
+              Services <i class="bx bx-chevron-down navbar__chevron" aria-hidden="true"></i>
+            </a>
+            {% if nav_services %}
+            <ul class="navbar__dropdown" role="list" aria-label="Services">
+              {% for service in nav_services %}
+              <li>
+                <a href="/services/{{ service.slug }}/" class="navbar__dropdown-link">
+                  <i class="{{ service.icon_class }}" aria-hidden="true"></i>
+                  {{ service.title }}
+                </a>
+              </li>
+              {% endfor %}
+              <li class="navbar__dropdown-footer">
+                <a href="{% url 'services:list' %}" class="navbar__dropdown-all">
+                  Voir tous les services <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+                </a>
+              </li>
+            </ul>
+            {% endif %}
+          </li>
+
+          <li class="navbar__item">
+            <a href="{% url 'portfolio:list' %}" class="navbar__link {% if request.resolver_match.app_name == 'portfolio' %}is-active{% endif %}">
+              Portfolio
+            </a>
+          </li>
+
+          <li class="navbar__item">
+            <a href="{% url 'blog:list' %}" class="navbar__link {% if request.resolver_match.app_name == 'blog' %}is-active{% endif %}">
+              Blog
+            </a>
+          </li>
+
+          <li class="navbar__item">
+            <a href="{% url 'accounts:team' %}" class="navbar__link {% if request.resolver_match.app_name == 'accounts' %}is-active{% endif %}">
+              Équipe
+            </a>
+          </li>
+
+        </ul>
+      </nav>
+
+      {# ── CTA Button ─────────────────────────────────── #}
+      <div class="navbar__actions">
+        <a href="{% url 'contact:index' %}" class="btn btn--primary btn--sm">
+          <i class="bx bx-message-square-dots" aria-hidden="true"></i>
+          Nous contacter
+        </a>
+      </div>
+
+      {# ── Mobile Toggle ──────────────────────────────── #}
+      <button class="navbar__toggle" id="navToggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span class="navbar__hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+
+    </div>
+  </div>
+
+  {# ── Mobile Menu ────────────────────────────────────── #}
+  <div class="navbar__mobile" id="mobileMenu" role="dialog" aria-modal="false" aria-label="Menu mobile">
+    <nav aria-label="Navigation mobile">
+      <ul class="navbar__mobile-menu" role="list">
+        <li><a href="{% url 'home:index' %}" class="navbar__mobile-link">Accueil</a></li>
+        <li>
+          <button class="navbar__mobile-link navbar__mobile-dropdown-toggle" aria-expanded="false">
+            Services <i class="bx bx-chevron-down" aria-hidden="true"></i>
+          </button>
+          <ul class="navbar__mobile-sub" role="list" hidden>
+            {% for service in nav_services %}
+            <li>
+              <a href="/services/{{ service.slug }}/" class="navbar__mobile-sublink">
+                <i class="{{ service.icon_class }}" aria-hidden="true"></i>
+                {{ service.title }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </li>
+        <li><a href="{% url 'portfolio:list' %}" class="navbar__mobile-link">Portfolio</a></li>
+        <li><a href="{% url 'blog:list' %}" class="navbar__mobile-link">Blog</a></li>
+        <li><a href="{% url 'accounts:team' %}" class="navbar__mobile-link">Équipe</a></li>
+        <li>
+          <a href="{% url 'contact:index' %}" class="btn btn--primary btn--block mt-4">
+            <i class="bx bx-message-square-dots" aria-hidden="true"></i>
+            Nous contacter
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    {% if site.phone_main or site.email_main %}
+    <div class="navbar__mobile-contact">
+      {% if site.phone_main %}
+      <a href="tel:{{ site.phone_main }}" class="navbar__mobile-contact-link">
+        <i class="bx bx-phone" aria-hidden="true"></i>
+        {{ site.phone_main }}
+      </a>
+      {% endif %}
+      {% if site.email_main %}
+      <a href="mailto:{{ site.email_main }}" class="navbar__mobile-contact-link">
+        <i class="bx bx-envelope" aria-hidden="true"></i>
+        {{ site.email_main }}
+      </a>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+
+</header>

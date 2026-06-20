@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Portfolio — {{ site.site_name }}{% endblock %}
+{% block meta_description %}Découvrez les réalisations de DAST NEWGEN'SPARK : sites web, applications, campagnes marketing et bien plus encore.{% endblock %}
+
+{% block content %}
+
+<section class="page-hero page-hero--blue" aria-label="Portfolio">
+  <div class="container">
+    <span class="section-eyebrow">Nos réalisations</span>
+    <h1 class="page-hero__title">Notre <em style="font-style:normal;opacity:.85;">Portfolio</em></h1>
+    <p class="page-hero__sub">Des projets concrets, des résultats mesurables, des clients satisfaits.</p>
+    <nav class="breadcrumb" aria-label="Fil d'Ariane" style="margin-top:.75rem;">
+      <ol>
+        <li><a href="{% url 'home:index' %}">Accueil</a></li>
+        <li aria-current="page">Portfolio</li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<section class="section" aria-label="Projets">
+  <div class="container">
+
+    {% if categories %}
+    <div class="filter-bar" data-animate="fade-up" role="group" aria-label="Filtrer par catégorie">
+      <a href="{% url 'portfolio:list' %}" class="filter-btn {% if not active_category %}is-active{% endif %}">
+        Tous les projets
+      </a>
+      {% for cat in categories %}
+      <a href="?categorie={{ cat.slug }}" class="filter-btn {% if active_category.pk == cat.pk %}is-active{% endif %}">
+        {{ cat.name }}
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="portfolio-grid">
+      {% for project in projects %}
+      <article class="project-card" data-animate="fade-up">
+        <div class="project-card__img-wrap">
+          {% if project.cover_image %}
+          <img src="{{ project.cover_image.url }}" alt="{{ project.title }}" loading="lazy">
+          {% else %}
+          <div class="project-card__no-img"><i class="bx bx-image" aria-hidden="true"></i></div>
+          {% endif %}
+          <div class="project-card__overlay">
+            <a href="{{ project.get_absolute_url }}" class="project-card__overlay-btn">
+              <i class="bx bx-link-external" aria-hidden="true"></i>
+              Voir le projet
+            </a>
+          </div>
+        </div>
+        <div class="project-card__body">
+          {% if project.category %}
+          <span class="project-card__cat">{{ project.category.name }}</span>
+          {% endif %}
+          <h2 class="project-card__title">
+            <a href="{{ project.get_absolute_url }}">{{ project.title }}</a>
+          </h2>
+          <p class="project-card__desc">{{ project.short_description }}</p>
+          {% if project.technologies.all %}
+          <div class="project-card__tech">
+            {% for tech in project.technologies.all|slice:":4" %}
+            <span class="tech-pill">{{ tech.name }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </article>
+      {% empty %}
+      <div class="empty-state">
+        <i class="bx bx-collection" aria-hidden="true"></i>
+        <h2>Portfolio en cours de construction</h2>
+        <p>Nos premières réalisations seront bientôt publiées.</p>
+        <a href="{% url 'contact:index' %}" class="btn btn--primary mt-4">Démarrer votre projet</a>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+{% endblock %}

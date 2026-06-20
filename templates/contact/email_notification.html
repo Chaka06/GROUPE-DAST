@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nouveau message de contact</title>
+</head>
+<body style="font-family: 'Segoe UI', Arial, sans-serif; background:#f5f7fa; margin:0; padding:20px;">
+  <div style="max-width:600px; margin:0 auto; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.1);">
+    <div style="background: linear-gradient(135deg, #2B7FD4, #1A5FA0); padding:32px; text-align:center;">
+      <h1 style="color:#fff; margin:0; font-size:24px; font-weight:700;">DAST NEWGEN'SPARK</h1>
+      <p style="color:rgba(255,255,255,0.8); margin:8px 0 0;">Nouveau message de contact</p>
+    </div>
+    <div style="padding:32px;">
+      <table style="width:100%; border-collapse:collapse;">
+        <tr>
+          <td style="padding:12px 0; border-bottom:1px solid #f0f0f0; color:#666; width:140px; font-size:14px;">Nom complet</td>
+          <td style="padding:12px 0; border-bottom:1px solid #f0f0f0; color:#1a1a2e; font-weight:600;">{{ msg.full_name }}</td>
+        </tr>
+        <tr>
+          <td style="padding:12px 0; border-bottom:1px solid #f0f0f0; color:#666; font-size:14px;">Email</td>
+          <td style="padding:12px 0; border-bottom:1px solid #f0f0f0;">
+            <a href="mailto:{{ msg.email }}" style="color:#2B7FD4;">{{ msg.email }}</a>
+          </td>
+        </tr>
+        {% if msg.phone %}
+        <tr>
+          <td style="padding:12px 0; border-bottom:1px solid #f0f0f0; color:#666; font-size:14px;">Téléphone</td>
+          <td style="padding:12px 0; border-bottom:1px solid #f0f0f0; color:#1a1a2e;">{{ msg.phone }}</td>
+        </tr>
+        {% endif %}
+        {% if msg.company %}
+        <tr>
+          <td style="padding:12px 0; border-bottom:1px solid #f0f0f0; color:#666; font-size:14px;">Entreprise</td>
+          <td style="padding:12px 0; border-bottom:1px solid #f0f0f0; color:#1a1a2e;">{{ msg.company }}</td>
+        </tr>
+        {% endif %}
+        <tr>
+          <td style="padding:12px 0; border-bottom:1px solid #f0f0f0; color:#666; font-size:14px;">Sujet</td>
+          <td style="padding:12px 0; border-bottom:1px solid #f0f0f0; color:#1a1a2e; font-weight:600;">{{ msg.get_subject_display }}</td>
+        </tr>
+        <tr>
+          <td style="padding:12px 0; color:#666; font-size:14px; vertical-align:top; padding-top:16px;">Message</td>
+          <td style="padding:12px 0; color:#1a1a2e; padding-top:16px;">{{ msg.message|linebreaksbr }}</td>
+        </tr>
+      </table>
+      <div style="margin-top:24px; padding:16px; background:#f8fafc; border-radius:8px; border-left:4px solid #2B7FD4;">
+        <p style="margin:0; font-size:13px; color:#666;">
+          Message reçu le {{ msg.created_at|date:"d/m/Y à H:i" }} • IP : {{ msg.ip_address|default:"Non disponible" }}
+        </p>
+      </div>
+      <div style="margin-top:24px; text-align:center;">
+        <a href="mailto:{{ msg.email }}" style="display:inline-block; background:#2B7FD4; color:#fff; text-decoration:none; padding:12px 28px; border-radius:8px; font-weight:600; font-size:14px;">
+          Répondre à {{ msg.full_name }}
+        </a>
+      </div>
+    </div>
+    <div style="background:#f5f7fa; padding:20px; text-align:center;">
+      <p style="margin:0; color:#999; font-size:12px;">
+        Ce message a été envoyé depuis le formulaire de contact de <strong>DAST NEWGEN'SPARK</strong>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

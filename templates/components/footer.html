@@ -1,0 +1,124 @@
+{% load static %}
+<footer class="footer" role="contentinfo">
+
+  <div class="container">
+    <div class="footer__grid">
+
+      {# ── Marque ──────────────────────────────────────── #}
+      <div>
+        <a href="{% url 'home:index' %}" class="footer__logo" aria-label="{{ site.site_name }}">
+          {% if site.logo_white %}
+            <img src="{{ site.logo_white.url }}" alt="{{ site.site_name }}" width="140" height="40">
+          {% else %}
+            <span class="footer__logo-wrap">
+              <img src="{% static 'images/logo/dast-logo.jpg' %}" alt="DAST NEWGEN'SPARK" class="footer__logo-img">
+            </span>
+          {% endif %}
+        </a>
+        <p class="footer__about">
+          {% if site.about_short %}{{ site.about_short }}{% else %}Agence numérique spécialisée en développement web, marketing digital, communication et services numériques.{% endif %}
+        </p>
+        <div class="footer__social" aria-label="Réseaux sociaux">
+          {% if site.facebook_url %}
+          <a href="{{ site.facebook_url }}" target="_blank" rel="noopener noreferrer" class="footer__social-link" aria-label="Facebook">
+            <i class="bx bxl-facebook" aria-hidden="true"></i>
+          </a>
+          {% endif %}
+          {% if site.instagram_url %}
+          <a href="{{ site.instagram_url }}" target="_blank" rel="noopener noreferrer" class="footer__social-link" aria-label="Instagram">
+            <i class="bx bxl-instagram" aria-hidden="true"></i>
+          </a>
+          {% endif %}
+          {% if site.linkedin_url %}
+          <a href="{{ site.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="footer__social-link" aria-label="LinkedIn">
+            <i class="bx bxl-linkedin" aria-hidden="true"></i>
+          </a>
+          {% endif %}
+          {% if site.tiktok_url %}
+          <a href="{{ site.tiktok_url }}" target="_blank" rel="noopener noreferrer" class="footer__social-link" aria-label="TikTok">
+            <i class="bx bxl-tiktok" aria-hidden="true"></i>
+          </a>
+          {% endif %}
+          {% if site.youtube_url %}
+          <a href="{{ site.youtube_url }}" target="_blank" rel="noopener noreferrer" class="footer__social-link" aria-label="YouTube">
+            <i class="bx bxl-youtube" aria-hidden="true"></i>
+          </a>
+          {% endif %}
+          {% if site.twitter_url %}
+          <a href="{{ site.twitter_url }}" target="_blank" rel="noopener noreferrer" class="footer__social-link" aria-label="Twitter / X">
+            <i class="bx bxl-twitter" aria-hidden="true"></i>
+          </a>
+          {% endif %}
+        </div>
+      </div>
+
+      {# ── Services ────────────────────────────────────── #}
+      <div>
+        <h3 class="footer__heading">Nos Services</h3>
+        <ul class="footer__links" role="list">
+          {% for service in nav_services %}
+          <li><a href="/services/{{ service.slug }}/" class="footer__link">{{ service.title }}</a></li>
+          {% empty %}
+          <li><a href="{% url 'services:list' %}" class="footer__link">Développement web</a></li>
+          <li><a href="{% url 'services:list' %}" class="footer__link">Marketing digital</a></li>
+          <li><a href="{% url 'services:list' %}" class="footer__link">Communication</a></li>
+          <li><a href="{% url 'services:list' %}" class="footer__link">Services numériques</a></li>
+          <li><a href="{% url 'services:list' %}" class="footer__link">Vidéo Institutionnelle</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      {# ── Navigation ──────────────────────────────────── #}
+      <div>
+        <h3 class="footer__heading">Navigation</h3>
+        <ul class="footer__links" role="list">
+          <li><a href="{% url 'home:index' %}"     class="footer__link">Accueil</a></li>
+          <li><a href="{% url 'portfolio:list' %}" class="footer__link">Portfolio</a></li>
+          <li><a href="{% url 'blog:list' %}"      class="footer__link">Blog</a></li>
+          <li><a href="{% url 'accounts:team' %}"  class="footer__link">Notre équipe</a></li>
+          <li><a href="{% url 'contact:index' %}"  class="footer__link">Contact</a></li>
+        </ul>
+      </div>
+
+      {# ── Contact ─────────────────────────────────────── #}
+      <div>
+        <h3 class="footer__heading">Contact</h3>
+        <ul class="footer__contact-list" role="list">
+          {% if site.phone_main %}
+          <li class="footer__contact-item">
+            <i class="bx bx-phone-call" aria-hidden="true"></i>
+            <a href="tel:{{ site.phone_main }}">{{ site.phone_main }}</a>
+          </li>
+          {% endif %}
+          {% if site.email_main %}
+          <li class="footer__contact-item">
+            <i class="bx bx-envelope" aria-hidden="true"></i>
+            <a href="mailto:{{ site.email_main }}">{{ site.email_main }}</a>
+          </li>
+          {% endif %}
+          {% if site.whatsapp %}
+          <li class="footer__contact-item">
+            <i class="bx bxl-whatsapp" aria-hidden="true"></i>
+            <a href="https://wa.me/{{ site.whatsapp|cut:'+' }}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+          </li>
+          {% endif %}
+          {% if site.address %}
+          <li class="footer__contact-item">
+            <i class="bx bx-map" aria-hidden="true"></i>
+            <address>{{ site.address|linebreaksbr }}</address>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
+      <p>&copy; {% now "Y" %} <strong>{{ site.site_name }}</strong>. Tous droits réservés.</p>
+      <p>Conçu &amp; développé par l'équipe DAST</p>
+    </div>
+  </div>
+
+</footer>

@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block title %}{{ project.title }} — {{ site.site_name }}{% endblock %}
+{% block meta_description %}{{ project.short_description }}{% endblock %}
+
+{% block content %}
+
+<section class="page-hero page-hero--blue" aria-label="{{ project.title }}">
+  <div class="container">
+    {% if project.category %}
+    <span class="section-eyebrow">{{ project.category.name }}</span>
+    {% endif %}
+    <h1 class="page-hero__title">{{ project.title }}</h1>
+    <p class="page-hero__sub">{{ project.short_description }}</p>
+    <nav class="breadcrumb" aria-label="Fil d'Ariane" style="margin-top:.75rem;">
+      <ol>
+        <li><a href="{% url 'home:index' %}">Accueil</a></li>
+        <li><a href="{% url 'portfolio:list' %}">Portfolio</a></li>
+        <li aria-current="page">{{ project.title }}</li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<section class="section" aria-label="Détail du projet">
+  <div class="container">
+    <div class="project-detail-layout">
+
+      <div data-animate="fade-right">
+        {% if project.cover_image %}
+        <div class="article-cover">
+          <img src="{{ project.cover_image.url }}" alt="{{ project.title }}" loading="eager">
+        </div>
+        {% endif %}
+
+        {% if project.images.all %}
+        <div class="project-gallery">
+          {% for img in project.images.all %}
+          <div class="project-gallery__img">
+            <img src="{{ img.image.url }}" alt="{{ img.caption|default:project.title }}" loading="lazy">
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="prose" style="margin-top:1.5rem;">
+          <h2>À propos du projet</h2>
+          <div>{{ project.description|linebreaksbr }}</div>
+        </div>
+      </div>
+
+      <aside data-animate="fade-left">
+        <div class="sidebar-card">
+          <h3 class="sidebar-card__title">
+            <i class="bx bx-info-circle" aria-hidden="true"></i>
+            Informations
+          </h3>
+          <div class="service-info-list">
+            {% if project.client_name %}
+            <div class="service-info-item">
+              <span class="service-info-item__label"><i class="bx bx-user" aria-hidden="true"></i> Client</span>
+              <span class="service-info-item__val">{{ project.client_name }}</span>
+            </div>
+            {% endif %}
+            {% if project.category %}
+            <div class="service-info-item">
+              <span class="service-info-item__label"><i class="bx bx-folder" aria-hidden="true"></i> Catégorie</span>
+              <span class="service-info-item__val">{{ project.category.name }}</span>
+            </div>
+            {% endif %}
+          </div>
+
+          {% if project.technologies.all %}
+          <div style="margin-top:1rem;">
+            <p style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:.5rem;">
+              <i class="bx bx-code-block" aria-hidden="true"></i> Technologies
+            </p>
+            <div class="project-card__tech">
+              {% for tech in project.technologies.all %}
+              <span class="tech-pill">{{ tech.name }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          <div style="margin-top:1.25rem;display:flex;flex-direction:column;gap:.625rem;">
+            {% if project.project_url %}
+            <a href="{{ project.project_url }}" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--block">
+              <i class="bx bx-link-external" aria-hidden="true"></i>
+              Voir le projet live
+            </a>
+            {% endif %}
+            {% if project.github_url %}
+            <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer" class="btn btn--outline btn--block">
+              <i class="bx bxl-github" aria-hidden="true"></i>
+              Code source
+            </a>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="sidebar-card sidebar-card--cta">
+          <h3>Un projet similaire ?</h3>
+          <p>Parlons-en et construisons ensemble votre solution sur mesure.</p>
+          <a href="{% url 'contact:index' %}" class="btn btn--white btn--block">
+            <i class="bx bx-message-square-dots" aria-hidden="true"></i>
+            Démarrer mon projet
+          </a>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+{% if related_projects %}
+<section class="section section--alt" aria-label="Projets similaires">
+  <div class="container">
+    <h2 class="section-title text-center" data-animate="fade-up">Projets similaires</h2>
+    <div class="portfolio-grid mt-8">
+      {% for rp in related_projects %}
+      <article class="project-card" data-animate="fade-up">
+        <div class="project-card__img-wrap">
+          {% if rp.cover_image %}
+          <img src="{{ rp.cover_image.url }}" alt="{{ rp.title }}" loading="lazy">
+          {% else %}
+          <div class="project-card__no-img"><i class="bx bx-image" aria-hidden="true"></i></div>
+          {% endif %}
+          <div class="project-card__overlay">
+            <a href="{{ rp.get_absolute_url }}" class="project-card__overlay-btn">
+              <i class="bx bx-link-external" aria-hidden="true"></i>
+              Voir le projet
+            </a>
+          </div>
+        </div>
+        <div class="project-card__body">
+          <h3 class="project-card__title"><a href="{{ rp.get_absolute_url }}">{{ rp.title }}</a></h3>
+          <p class="project-card__desc">{{ rp.short_description }}</p>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

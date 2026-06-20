@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}{{ category.name }} — Blog{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--blue" aria-label="Catégorie blog">
+  <div class="container">
+    <span class="section-eyebrow">Catégorie</span>
+    <h1 class="page-hero__title">{{ category.name }}</h1>
+    {% if category.description %}<p class="page-hero__sub">{{ category.description }}</p>{% endif %}
+    <nav class="breadcrumb" aria-label="Fil d'Ariane" style="margin-top:.75rem;">
+      <ol>
+        <li><a href="{% url 'home:index' %}">Accueil</a></li>
+        <li><a href="{% url 'blog:list' %}">Blog</a></li>
+        <li aria-current="page">{{ category.name }}</li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<section class="section" aria-label="Articles">
+  <div class="container">
+    <div class="blog-layout">
+
+      <div>
+        <div class="blog-grid">
+          {% for post in page_obj %}
+          <article class="blog-card" data-animate="fade-up">
+            <a href="{{ post.get_absolute_url }}" class="blog-card__img" tabindex="-1" aria-hidden="true">
+              {% if post.cover_image %}
+              <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" loading="lazy">
+              {% else %}
+              <div class="blog-card__img-ph"><i class="bx bx-edit" aria-hidden="true"></i></div>
+              {% endif %}
+            </a>
+            <div class="blog-card__body">
+              <h2 class="blog-card__title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+              {% if post.excerpt %}<p class="blog-card__excerpt">{{ post.excerpt|truncatechars:130 }}</p>{% endif %}
+              <div class="blog-card__meta">
+                <span><i class="bx bx-user-circle" aria-hidden="true"></i> Publié par {{ post.author.display_name }}</span>
+                <span><i class="bx bx-time" aria-hidden="true"></i> {{ post.reading_time }} min</span>
+              </div>
+            </div>
+          </article>
+          {% empty %}
+          <div class="empty-state">
+            <i class="bx bx-edit-alt" aria-hidden="true"></i>
+            <h2>Aucun article dans cette catégorie</h2>
+          </div>
+          {% endfor %}
+        </div>
+
+        {% if page_obj.has_other_pages %}
+        <nav class="pagination" aria-label="Pagination">
+          {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}" class="page-btn"><i class="bx bx-chevron-left" aria-hidden="true"></i></a>
+          {% endif %}
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <span class="page-btn is-active" aria-current="page">{{ num }}</span>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a href="?page={{ num }}" class="page-btn">{{ num }}</a>
+            {% endif %}
+          {% endfor %}
+          {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}" class="page-btn"><i class="bx bx-chevron-right" aria-hidden="true"></i></a>
+          {% endif %}
+        </nav>
+        {% endif %}
+      </div>
+
+      <aside class="blog-sidebar">
+        {% if categories %}
+        <div class="sidebar-card">
+          <h3 class="sidebar-card__title"><i class="bx bx-category" aria-hidden="true"></i> Catégories</h3>
+          <div class="sidebar-cats">
+            {% for cat in categories %}
+            <a href="{{ cat.get_absolute_url }}"
+               class="sidebar-cat-link {% if cat.pk == category.pk %}is-active{% endif %}">
+              {{ cat.name }}
+              <i class="bx bx-chevron-right" aria-hidden="true"></i>
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+        <div class="sidebar-card sidebar-card--cta">
+          <h3>Un projet digital ?</h3>
+          <p>Parlons-en ensemble.</p>
+          <a href="{% url 'contact:index' %}" class="btn btn--white btn--block">
+            <i class="bx bx-message-square-dots" aria-hidden="true"></i>
+            Nous contacter
+          </a>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>
+{% endblock %}

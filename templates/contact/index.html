@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Nous contacter — {{ site.site_name }}{% endblock %}
+{% block meta_description %}Contactez DAST NEWGEN'SPARK pour votre projet numérique. Développement web, marketing digital, communication — nous sommes à votre écoute.{% endblock %}
+
+{% block content %}
+
+<section class="page-hero page-hero--blue" aria-label="Contact">
+  <div class="container">
+    <span class="section-eyebrow">Contactez-nous</span>
+    <h1 class="page-hero__title">Parlons de votre <em style="font-style:normal;opacity:.85;">projet</em></h1>
+    <p class="page-hero__sub">Nous sommes à votre écoute pour transformer vos idées en solutions digitales concrètes.</p>
+    <nav class="breadcrumb" aria-label="Fil d'Ariane" style="margin-top:.75rem;">
+      <ol>
+        <li><a href="{% url 'home:index' %}">Accueil</a></li>
+        <li aria-current="page">Contact</li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<section class="section" aria-label="Formulaire de contact">
+  <div class="container">
+    <div class="contact-layout">
+
+      {# ── Infos de contact ──────────────────────────── #}
+      <div class="contact-info-panel" data-animate="fade-right">
+        <h2 class="contact-info-panel__title">Informations de contact</h2>
+        <p class="contact-info-panel__sub">Choisissez le moyen qui vous convient. Nous répondons sous 24h.</p>
+
+        <div class="contact-info-list">
+          {% if site.phone_main %}
+          <div class="contact-info-item">
+            <div class="contact-info-icon"><i class="bx bx-phone-call" aria-hidden="true"></i></div>
+            <div>
+              <span class="contact-info-label">Téléphone</span>
+              <div class="contact-info-value">
+                <a href="tel:{{ site.phone_main }}">{{ site.phone_main }}</a>
+              </div>
+              {% if site.phone_secondary %}
+              <div class="contact-info-value">
+                <a href="tel:{{ site.phone_secondary }}">{{ site.phone_secondary }}</a>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% if site.email_main %}
+          <div class="contact-info-item">
+            <div class="contact-info-icon"><i class="bx bx-envelope" aria-hidden="true"></i></div>
+            <div>
+              <span class="contact-info-label">Email</span>
+              <div class="contact-info-value">
+                <a href="mailto:{{ site.email_main }}">{{ site.email_main }}</a>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if site.whatsapp %}
+          <div class="contact-info-item">
+            <div class="contact-info-icon"><i class="bx bxl-whatsapp" aria-hidden="true"></i></div>
+            <div>
+              <span class="contact-info-label">WhatsApp</span>
+              <div class="contact-info-value">
+                <a href="https://wa.me/{{ site.whatsapp|cut:'+' }}" target="_blank" rel="noopener noreferrer">
+                  Chatter sur WhatsApp
+                </a>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if site.address %}
+          <div class="contact-info-item">
+            <div class="contact-info-icon"><i class="bx bx-map" aria-hidden="true"></i></div>
+            <div>
+              <span class="contact-info-label">Adresse</span>
+              <address class="contact-info-value">{{ site.address|linebreaksbr }}</address>
+              {% if site.google_maps_url %}
+              <a href="{{ site.google_maps_url }}" target="_blank" rel="noopener noreferrer"
+                 style="display:flex;align-items:center;gap:.375rem;font-size:.8125rem;color:var(--blue);margin-top:.375rem;">
+                <i class="bx bx-map-pin" aria-hidden="true"></i>
+                Voir sur Google Maps
+              </a>
+              {% endif %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+
+        <p class="contact-social-title">Nos réseaux sociaux</p>
+        <div class="contact-social-links">
+          {% if site.facebook_url %}
+          <a href="{{ site.facebook_url }}" target="_blank" rel="noopener noreferrer" class="social-link-icon" aria-label="Facebook">
+            <i class="bx bxl-facebook" aria-hidden="true"></i>
+          </a>
+          {% endif %}
+          {% if site.instagram_url %}
+          <a href="{{ site.instagram_url }}" target="_blank" rel="noopener noreferrer" class="social-link-icon" aria-label="Instagram">
+            <i class="bx bxl-instagram" aria-hidden="true"></i>
+          </a>
+          {% endif %}
+          {% if site.linkedin_url %}
+          <a href="{{ site.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="social-link-icon" aria-label="LinkedIn">
+            <i class="bx bxl-linkedin" aria-hidden="true"></i>
+          </a>
+          {% endif %}
+          {% if site.tiktok_url %}
+          <a href="{{ site.tiktok_url }}" target="_blank" rel="noopener noreferrer" class="social-link-icon" aria-label="TikTok">
+            <i class="bx bxl-tiktok" aria-hidden="true"></i>
+          </a>
+          {% endif %}
+          {% if site.youtube_url %}
+          <a href="{{ site.youtube_url }}" target="_blank" rel="noopener noreferrer" class="social-link-icon" aria-label="YouTube">
+            <i class="bx bxl-youtube" aria-hidden="true"></i>
+          </a>
+          {% endif %}
+        </div>
+
+        {% if site.google_maps_embed %}
+        <div style="margin-top:1.5rem;border-radius:var(--r-lg);overflow:hidden;">
+          {{ site.google_maps_embed|safe }}
+        </div>
+        {% endif %}
+      </div>
+
+      {# ── Formulaire ────────────────────────────────── #}
+      <div class="contact-form-panel" data-animate="fade-left">
+        <h2 class="contact-form-panel__title">
+          <i class="bx bx-send" aria-hidden="true"></i>
+          Envoyer un message
+        </h2>
+        <p class="contact-form-panel__sub">Remplissez le formulaire ci-dessous et nous vous répondrons dans les meilleurs délais.</p>
+
+        <form method="post" action="" novalidate>
+          {% csrf_token %}
+          <div style="display:none;" aria-hidden="true">{{ form.honeypot }}</div>
+
+          <div class="form-row">
+            <div class="form-group {% if form.full_name.errors %}has-error{% endif %}">
+              <label for="{{ form.full_name.id_for_label }}" class="form-label">
+                <i class="bx bx-user" aria-hidden="true"></i>
+                Nom complet <span class="required">*</span>
+              </label>
+              {{ form.full_name }}
+              {% if form.full_name.errors %}
+              <div class="form-error" role="alert">
+                <i class="bx bx-error-circle" aria-hidden="true"></i>
+                {{ form.full_name.errors.0 }}
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="form-group {% if form.email.errors %}has-error{% endif %}">
+              <label for="{{ form.email.id_for_label }}" class="form-label">
+                <i class="bx bx-envelope" aria-hidden="true"></i>
+                Email <span class="required">*</span>
+              </label>
+              {{ form.email }}
+              {% if form.email.errors %}
+              <div class="form-error" role="alert">
+                <i class="bx bx-error-circle" aria-hidden="true"></i>
+                {{ form.email.errors.0 }}
+              </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="{{ form.phone.id_for_label }}" class="form-label">
+                <i class="bx bx-phone" aria-hidden="true"></i>
+                Téléphone
+              </label>
+              {{ form.phone }}
+            </div>
+
+            <div class="form-group">
+              <label for="{{ form.company.id_for_label }}" class="form-label">
+                <i class="bx bx-building-house" aria-hidden="true"></i>
+                Entreprise
+              </label>
+              {{ form.company }}
+            </div>
+          </div>
+
+          <div class="form-group {% if form.subject.errors %}has-error{% endif %}">
+            <label for="{{ form.subject.id_for_label }}" class="form-label">
+              <i class="bx bx-list-ul" aria-hidden="true"></i>
+              Sujet <span class="required">*</span>
+            </label>
+            {{ form.subject }}
+          </div>
+
+          <div class="form-group {% if form.message.errors %}has-error{% endif %}">
+            <label for="{{ form.message.id_for_label }}" class="form-label">
+              <i class="bx bx-message-detail" aria-hidden="true"></i>
+              Message <span class="required">*</span>
+            </label>
+            {{ form.message }}
+            {% if form.message.errors %}
+            <div class="form-error" role="alert">
+              <i class="bx bx-error-circle" aria-hidden="true"></i>
+              {{ form.message.errors.0 }}
+            </div>
+            {% endif %}
+          </div>
+
+          <p class="form-disclaimer">
+            <i class="bx bx-lock-alt" aria-hidden="true"></i>
+            Vos informations sont confidentielles et ne seront jamais partagées avec des tiers.
+          </p>
+
+          <button type="submit" class="btn btn--primary btn--lg btn--block contact-form__submit">
+            <i class="bx bx-send" aria-hidden="true"></i>
+            <span>Envoyer le message</span>
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endblock %}

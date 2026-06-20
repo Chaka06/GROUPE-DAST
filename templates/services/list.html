@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Nos Services — {{ site.site_name }}{% endblock %}
+{% block meta_description %}Découvrez tous les services proposés par DAST NEWGEN'SPARK : développement web, marketing digital, communication et services numériques.{% endblock %}
+
+{% block content %}
+
+<section class="page-hero page-hero--blue" aria-label="Services">
+  <div class="container">
+    <span class="section-eyebrow">Nos expertises</span>
+    <h1 class="page-hero__title">Nos <em style="font-style:normal;opacity:.85;">Services</em></h1>
+    <p class="page-hero__sub">Des solutions numériques complètes pour propulser votre entreprise vers le succès.</p>
+    <nav class="breadcrumb" aria-label="Fil d'Ariane" style="margin-top:.75rem;">
+      <ol>
+        <li><a href="{% url 'home:index' %}">Accueil</a></li>
+        <li aria-current="page">Services</li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<section class="section" aria-label="Liste des services">
+  <div class="container">
+    <div class="services-grid">
+      {% for service in services %}
+      <article class="svc-card" data-animate="fade-up">
+        <div class="svc-card__icon">
+          <i class="{{ service.icon_class }}" aria-hidden="true"></i>
+        </div>
+        <h2 class="svc-card__title">{{ service.title }}</h2>
+        <p class="svc-card__desc">{{ service.short_description }}</p>
+        {% if service.features.all %}
+        <ul style="margin:.5rem 0 1rem;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:.375rem;">
+          {% for feature in service.features.all|slice:":3" %}
+          <li style="display:flex;align-items:center;gap:.375rem;font-size:.8125rem;color:var(--muted);">
+            <i class="{{ feature.icon_class|default:'bx bx-check' }}" style="color:var(--blue);font-size:1rem;" aria-hidden="true"></i>
+            {{ feature.title }}
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+        <a href="{{ service.get_absolute_url }}" class="svc-card__link">
+          Découvrir <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+        </a>
+      </article>
+      {% empty %}
+      <div class="empty-state">
+        <i class="bx bx-grid-alt" aria-hidden="true"></i>
+        <h2>Services en cours de configuration</h2>
+        <p>Revenez bientôt pour découvrir nos offres.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" aria-label="Démarrer un projet">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-content">
+        <h2 class="cta-content__title">Vous avez un projet en tête ?</h2>
+        <p class="cta-content__sub">Parlons-en et trouvons ensemble la meilleure solution pour atteindre vos objectifs.</p>
+      </div>
+      <div class="cta-actions">
+        <a href="{% url 'contact:index' %}" class="btn btn--white btn--lg">
+          <i class="bx bx-message-square-dots" aria-hidden="true"></i>
+          Nous contacter
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

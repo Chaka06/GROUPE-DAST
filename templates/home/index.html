@@ -1,0 +1,611 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ site.site_name }} — Agence Numérique en Côte d'Ivoire{% endblock %}
+{% block meta_description %}{{ site.meta_description|default:"DAST NEWGEN'SPARK — Agence numérique spécialisée en développement web, marketing digital, communication et services numériques en Côte d'Ivoire." }}{% endblock %}
+
+{% block content %}
+
+{# ── HERO ───────────────────────────────────────────────── #}
+<section class="hero" aria-label="Présentation DAST">
+  <div class="container">
+    <div class="hero__inner">
+
+      <div class="hero__content" data-animate="fade-right">
+        <div class="hero__tag">
+          <i class="bx bx-certification" aria-hidden="true"></i>
+          Agence Numérique — Côte d'Ivoire
+        </div>
+
+        {% if hero_slides %}
+          {% with slide=hero_slides.0 %}
+          <h1 class="hero__title">{{ slide.title }}</h1>
+          {% if slide.description %}
+          <p class="hero__desc">{{ slide.description }}</p>
+          {% endif %}
+          <div class="hero__actions">
+            <a href="{{ slide.cta_primary_url }}" class="btn btn--primary btn--lg">
+              {{ slide.cta_primary_text }}
+              <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+            </a>
+            {% if slide.cta_secondary_text %}
+            <a href="{{ slide.cta_secondary_url }}" class="btn btn--outline btn--lg">
+              {{ slide.cta_secondary_text }}
+            </a>
+            {% endif %}
+          </div>
+          {% endwith %}
+        {% else %}
+          <h1 class="hero__title">
+            Votre partenaire pour la <em>transformation numérique</em>
+          </h1>
+          <p class="hero__desc">
+            DAST NEWGEN'SPARK est une agence de jeunes professionnels ivoiriens qui accompagne les entreprises en développement web, marketing digital, communication et vidéo institutionnelle.
+          </p>
+          <div class="hero__actions">
+            <a href="{% url 'services:list' %}" class="btn btn--primary btn--lg">
+              Découvrir nos services
+              <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+            </a>
+            <a href="{% url 'portfolio:list' %}" class="btn btn--outline btn--lg">
+              Voir nos réalisations
+            </a>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="hero__visual" aria-hidden="true" data-animate="fade-left">
+        <div class="hero__photo hero__photo--wide">
+          <img src="{% static 'images/team/team-1.jpg' %}" alt="Équipe DAST NEWGEN'SPARK" loading="eager">
+        </div>
+        <div class="hero__photo">
+          <img src="{% static 'images/team/team-2.jpg' %}" alt="DAST en action" loading="eager">
+        </div>
+        <div class="hero__photo">
+          <img src="{% static 'images/team/team-3.jpg' %}" alt="DAST NEWGEN'SPARK" loading="eager">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{# ── TÉMOIGNAGES ────────────────────────────────────────── #}
+<section class="section section--alt" aria-label="Ce que disent nos clients">
+  <div class="container">
+    <div class="text-center" data-animate="fade-up">
+      <span class="section-eyebrow">Ce que disent nos clients</span>
+      <h2 class="section-title">Ils nous font <em>confiance</em></h2>
+    </div>
+
+    <div style="overflow:hidden;margin-top:2.5rem;" data-animate="fade-up">
+      <div class="testimonials__track" id="testimonialsTrack">
+
+        {% if testimonials %}
+          {% for testimonial in testimonials %}
+          <div class="testi-card">
+            <div class="testi-card__stars" aria-label="{{ testimonial.rating }} étoiles sur 5">
+              {% for i in "12345"|make_list %}
+              <i class="bx {% if forloop.counter <= testimonial.rating %}bxs-star{% else %}bx-star{% endif %}" aria-hidden="true"></i>
+              {% endfor %}
+            </div>
+            <div class="testi-card__text"><p>"{{ testimonial.content }}"</p></div>
+            <div class="testi-card__author">
+              {% if testimonial.client_photo %}
+              <img src="{{ testimonial.client_photo.url }}" alt="{{ testimonial.client_name }}" class="testi-card__avatar" loading="lazy">
+              {% else %}
+              <div class="testi-card__avatar-ph"><i class="bx bx-user" aria-hidden="true"></i></div>
+              {% endif %}
+              <div>
+                <strong class="testi-card__name">{{ testimonial.client_name }}</strong>
+                {% if testimonial.client_role %}<span class="testi-card__role">{{ testimonial.client_role }}</span>{% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          {# Témoignages par défaut #}
+          <div class="testi-card">
+            <div class="testi-card__stars"><i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i></div>
+            <div class="testi-card__text"><p>"L'équipe DAST a su créer un site web professionnel et moderne pour notre catalogue en un temps record. Leur maîtrise des outils numériques et leur sens du service ont été remarquables lors de notre cérémonie."</p></div>
+            <div class="testi-card__author">
+              <div class="testi-card__avatar-ph"><i class="bx bx-user" aria-hidden="true"></i></div>
+              <div><strong class="testi-card__name">Représentant ASCAD</strong><span class="testi-card__role">Académie des Sciences, des Arts, des Cultures d'Afrique</span></div>
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="testi-card__stars"><i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i></div>
+            <div class="testi-card__text"><p>"Des jeunes talentueux et très professionnels. Le QR code et les affiches explicatives qu'ils ont créés ont facilité l'accès au catalogue numérique pour tous nos invités, même les moins technophiles."</p></div>
+            <div class="testi-card__author">
+              <div class="testi-card__avatar-ph"><i class="bx bx-user" aria-hidden="true"></i></div>
+              <div><strong class="testi-card__name">Participant à la cérémonie</strong><span class="testi-card__role">Invité ASCAD 2024</span></div>
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="testi-card__stars"><i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i></div>
+            <div class="testi-card__text"><p>"Un accompagnement exceptionnel du début à la fin. L'approche innovante de DAST pour notre événement a suscité l'admiration de tous les participants. Bravo à toute l'équipe !"</p></div>
+            <div class="testi-card__author">
+              <div class="testi-card__avatar-ph"><i class="bx bx-user" aria-hidden="true"></i></div>
+              <div><strong class="testi-card__name">Comité d'organisation</strong><span class="testi-card__role">Cérémonie de remise des prix ASCAD</span></div>
+            </div>
+          </div>
+        {% endif %}
+
+      </div>
+      <div class="testimonials__controls">
+        <button class="testimonials__btn testimonials__btn--prev" aria-label="Précédent"><i class="bx bx-chevron-left" aria-hidden="true"></i></button>
+        <div class="testimonials__dots" id="testimonialsDots" role="tablist"></div>
+        <button class="testimonials__btn testimonials__btn--next" aria-label="Suivant"><i class="bx bx-chevron-right" aria-hidden="true"></i></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ── À PROPOS ───────────────────────────────────────────── #}
+<section class="section" id="about" aria-label="À propos de DAST">
+  <div class="container">
+    <div class="about__inner">
+
+      <div data-animate="fade-right">
+        <span class="section-eyebrow">À propos de nous</span>
+        <h2 class="section-title">Une agence portée par la <em>nouvelle génération</em></h2>
+        <p class="about__text">
+          {{ site.about_long|default:"DAST NEWGEN'SPARK est une agence numérique fondée par des étudiants ivoiriens passionnés du digital. Nous accompagnons les entreprises, entrepreneurs et organisations dans leur transformation numérique avec des solutions créatives, performantes et sur mesure." }}
+        </p>
+
+        <div class="about__values">
+          {% if values %}
+            {% for value in values %}
+            <div class="about__value">
+              <div class="about__value-icon">
+                <i class="{{ value.icon_class }}" aria-hidden="true"></i>
+              </div>
+              <div>
+                <div class="about__value-title">{{ value.title }}</div>
+                <div class="about__value-desc">{{ value.description }}</div>
+              </div>
+            </div>
+            {% endfor %}
+          {% else %}
+          <div class="about__value">
+            <div class="about__value-icon"><i class="bx bx-trophy" aria-hidden="true"></i></div>
+            <div>
+              <div class="about__value-title">Excellence</div>
+              <div class="about__value-desc">Chaque projet est réalisé avec le plus haut niveau d'exigence.</div>
+            </div>
+          </div>
+          <div class="about__value">
+            <div class="about__value-icon"><i class="bx bx-bulb" aria-hidden="true"></i></div>
+            <div>
+              <div class="about__value-title">Innovation</div>
+              <div class="about__value-desc">Nous adoptons les technologies les plus récentes.</div>
+            </div>
+          </div>
+          <div class="about__value">
+            <div class="about__value-icon"><i class="bx bx-shield-alt-2" aria-hidden="true"></i></div>
+            <div>
+              <div class="about__value-title">Fiabilité</div>
+              <div class="about__value-desc">Vos projets sont livrés dans les délais et budgets convenus.</div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+
+        <a href="{% url 'contact:index' %}" class="btn btn--primary mt-6">
+          Travailler avec nous
+          <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+        </a>
+      </div>
+
+      <div class="about__visual" data-animate="fade-left">
+        <img src="{% static 'images/team/ascad-ceremony.jpg' %}" alt="L'équipe DAST NEWGEN'SPARK à la cérémonie ASCAD" loading="lazy">
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{# ── SERVICES ───────────────────────────────────────────── #}
+<section class="section section--alt" id="services" aria-label="Nos services">
+  <div class="container">
+    <div class="text-center" data-animate="fade-up">
+      <span class="section-eyebrow">Ce que nous faisons</span>
+      <h2 class="section-title">Nos domaines d'<em>expertise</em></h2>
+      <p class="section-sub">Du développement web au marketing digital, nous couvrons tous les aspects de votre présence numérique.</p>
+    </div>
+
+    <div class="services-grid mt-10">
+      {% for service in services %}
+      <article class="svc-card" data-animate="fade-up">
+        <div class="svc-card__icon">
+          <i class="{{ service.icon_class }}" aria-hidden="true"></i>
+        </div>
+        <h3 class="svc-card__title">{{ service.title }}</h3>
+        <p class="svc-card__desc">{{ service.short_description }}</p>
+        <a href="{{ service.get_absolute_url }}" class="svc-card__link">
+          En savoir plus <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+        </a>
+      </article>
+      {% empty %}
+      <article class="svc-card">
+        <div class="svc-card__icon"><i class="bx bx-code-alt" aria-hidden="true"></i></div>
+        <h3 class="svc-card__title">Développement Web</h3>
+        <p class="svc-card__desc">Sites web, applications et solutions e-commerce sur mesure, performants et sécurisés.</p>
+        <a href="{% url 'services:list' %}" class="svc-card__link">En savoir plus <i class="bx bx-right-arrow-alt" aria-hidden="true"></i></a>
+      </article>
+      <article class="svc-card">
+        <div class="svc-card__icon"><i class="bx bx-trending-up" aria-hidden="true"></i></div>
+        <h3 class="svc-card__title">Marketing Digital</h3>
+        <p class="svc-card__desc">Stratégie digitale, SEO, publicité en ligne et gestion des réseaux sociaux.</p>
+        <a href="{% url 'services:list' %}" class="svc-card__link">En savoir plus <i class="bx bx-right-arrow-alt" aria-hidden="true"></i></a>
+      </article>
+      <article class="svc-card">
+        <div class="svc-card__icon"><i class="bx bxs-megaphone" aria-hidden="true"></i></div>
+        <h3 class="svc-card__title">Communication</h3>
+        <p class="svc-card__desc">Identité visuelle, création de contenu et stratégie de communication globale.</p>
+        <a href="{% url 'services:list' %}" class="svc-card__link">En savoir plus <i class="bx bx-right-arrow-alt" aria-hidden="true"></i></a>
+      </article>
+      <article class="svc-card">
+        <div class="svc-card__icon"><i class="bx bx-devices" aria-hidden="true"></i></div>
+        <h3 class="svc-card__title">Services Numériques</h3>
+        <p class="svc-card__desc">Conseil, formation et accompagnement dans votre transformation numérique.</p>
+        <a href="{% url 'services:list' %}" class="svc-card__link">En savoir plus <i class="bx bx-right-arrow-alt" aria-hidden="true"></i></a>
+      </article>
+      <article class="svc-card">
+        <div class="svc-card__icon"><i class="bx bx-video" aria-hidden="true"></i></div>
+        <h3 class="svc-card__title">Vidéo Institutionnelle</h3>
+        <p class="svc-card__desc">Production audiovisuelle professionnelle pour valoriser votre image de marque.</p>
+        <a href="{% url 'services:list' %}" class="svc-card__link">En savoir plus <i class="bx bx-right-arrow-alt" aria-hidden="true"></i></a>
+      </article>
+      {% endfor %}
+    </div>
+
+    <div class="text-center mt-8">
+      <a href="{% url 'services:list' %}" class="btn btn--outline btn--lg">
+        Tous nos services
+        <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+{# ── NOTRE ÉQUIPE EN IMAGES ─────────────────────────────── #}
+<section class="section" aria-label="Notre équipe">
+  <div class="container">
+    <div class="text-center" data-animate="fade-up">
+      <span class="section-eyebrow">Notre équipe</span>
+      <h2 class="section-title">Des jeunes <em>passionnés</em> du digital</h2>
+      <p class="section-sub">Une équipe soudée d'étudiants et de professionnels ivoiriens, animés par l'ambition de faire rayonner le numérique en Afrique.</p>
+    </div>
+
+    <div class="team-gallery mt-10" data-animate="fade-up">
+      <div class="team-gallery__item">
+        <img src="{% static 'images/team/team-1.jpg' %}" alt="Équipe DAST — Événement ASCAD" loading="lazy">
+      </div>
+      <div class="team-gallery__item">
+        <img src="{% static 'images/team/team-2.jpg' %}" alt="DAST — Networking ASCAD" loading="lazy">
+      </div>
+      <div class="team-gallery__item">
+        <img src="{% static 'images/team/team-3.jpg' %}" alt="DAST — Formation et excellence" loading="lazy">
+      </div>
+    </div>
+
+    <div class="text-center mt-8">
+      <a href="{% url 'accounts:team' %}" class="btn btn--outline">
+        Rencontrer l'équipe
+        <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+{# ── PROCESSUS ──────────────────────────────────────────── #}
+<section class="section section--alt" aria-label="Notre processus">
+  <div class="container">
+    <div class="text-center" data-animate="fade-up">
+      <span class="section-eyebrow">Notre méthode</span>
+      <h2 class="section-title">Comment nous <em>travaillons</em></h2>
+    </div>
+
+    <div class="process-grid mt-10">
+      <div class="process-step" data-animate="fade-up" data-delay="0">
+        <div class="process-step__num">01</div>
+        <h3 class="process-step__title">Découverte</h3>
+        <p class="process-step__desc">Nous analysons vos besoins, objectifs et marché pour définir la meilleure stratégie.</p>
+      </div>
+      <div class="process-step" data-animate="fade-up" data-delay="100">
+        <div class="process-step__num">02</div>
+        <h3 class="process-step__title">Conception</h3>
+        <p class="process-step__desc">Nos designers créent des maquettes et prototypes avant le développement.</p>
+      </div>
+      <div class="process-step" data-animate="fade-up" data-delay="200">
+        <div class="process-step__num">03</div>
+        <h3 class="process-step__title">Développement</h3>
+        <p class="process-step__desc">Notre équipe technique réalise votre projet avec les meilleures technologies.</p>
+      </div>
+      <div class="process-step" data-animate="fade-up" data-delay="300">
+        <div class="process-step__num">04</div>
+        <h3 class="process-step__title">Lancement</h3>
+        <p class="process-step__desc">Mise en ligne, tests finaux et accompagnement post-lancement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ── RÉALISATIONS ───────────────────────────────────────── #}
+{% if projects %}
+<section class="section" id="portfolio" aria-label="Nos réalisations">
+  <div class="container">
+    <div class="text-center" data-animate="fade-up">
+      <span class="section-eyebrow">Nos réalisations</span>
+      <h2 class="section-title">Des projets qui <em>parlent d'eux-mêmes</em></h2>
+      <p class="section-sub">Un aperçu de nos dernières réalisations pour des clients exigeants.</p>
+    </div>
+
+    <div class="portfolio-grid mt-10">
+      {% for project in projects %}
+      <article class="project-card" data-animate="fade-up">
+        <div class="project-card__img-wrap">
+          {% if project.cover_image %}
+          <img src="{{ project.cover_image.url }}" alt="{{ project.title }}" loading="lazy">
+          {% else %}
+          <div class="project-card__no-img"><i class="bx bx-image" aria-hidden="true"></i></div>
+          {% endif %}
+          <div class="project-card__overlay">
+            <a href="{{ project.get_absolute_url }}" class="project-card__overlay-btn">
+              <i class="bx bx-link-external" aria-hidden="true"></i>
+              Voir le projet
+            </a>
+          </div>
+        </div>
+        <div class="project-card__body">
+          {% if project.category %}
+          <span class="project-card__cat">{{ project.category.name }}</span>
+          {% endif %}
+          <h3 class="project-card__title">
+            <a href="{{ project.get_absolute_url }}">{{ project.title }}</a>
+          </h3>
+          <p class="project-card__desc">{{ project.short_description }}</p>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+
+    <div class="text-center mt-8">
+      <a href="{% url 'portfolio:list' %}" class="btn btn--primary">
+        Voir tout le portfolio
+        <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+      </a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ── TÉMOIGNAGES ────────────────────────────────────────── #}
+{% if testimonials %}
+<section class="section section--alt" id="testimonials" aria-label="Témoignages clients">
+  <div class="container">
+    <div class="text-center" data-animate="fade-up">
+      <span class="section-eyebrow">Ce que disent nos clients</span>
+      <h2 class="section-title">Ils nous font <em>confiance</em></h2>
+    </div>
+
+    <div style="overflow: hidden; margin-top: 2.5rem;" data-animate="fade-up">
+      <div class="testimonials__track" id="testimonialsTrack">
+        {% for testimonial in testimonials %}
+        <div class="testi-card">
+          <div class="testi-card__stars" aria-label="{{ testimonial.rating }} étoiles sur 5">
+            {% for i in "12345"|make_list %}
+            <i class="bx {% if forloop.counter <= testimonial.rating %}bxs-star{% else %}bx-star{% endif %}" aria-hidden="true"></i>
+            {% endfor %}
+          </div>
+          <div class="testi-card__text">
+            <p>"{{ testimonial.content }}"</p>
+          </div>
+          <div class="testi-card__author">
+            {% if testimonial.client_photo %}
+            <img src="{{ testimonial.client_photo.url }}" alt="{{ testimonial.client_name }}" class="testi-card__avatar" loading="lazy">
+            {% else %}
+            <div class="testi-card__avatar-ph"><i class="bx bx-user" aria-hidden="true"></i></div>
+            {% endif %}
+            <div>
+              <strong class="testi-card__name">{{ testimonial.client_name }}</strong>
+              {% if testimonial.client_role %}
+              <span class="testi-card__role">{{ testimonial.client_role }}</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="testimonials__controls">
+        <button class="testimonials__btn testimonials__btn--prev" aria-label="Précédent">
+          <i class="bx bx-chevron-left" aria-hidden="true"></i>
+        </button>
+        <div class="testimonials__dots" id="testimonialsDots" role="tablist"></div>
+        <button class="testimonials__btn testimonials__btn--next" aria-label="Suivant">
+          <i class="bx bx-chevron-right" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ── BLOG ───────────────────────────────────────────────── #}
+{% if posts %}
+<section class="section" id="blog" aria-label="Derniers articles">
+  <div class="container">
+    <div class="text-center" data-animate="fade-up">
+      <span class="section-eyebrow">Notre blog</span>
+      <h2 class="section-title">Actualités &amp; <em>Ressources</em></h2>
+      <p class="section-sub">Conseils, tendances et insights pour rester à la pointe du digital.</p>
+    </div>
+
+    <div class="blog-grid mt-10">
+      {% for post in posts %}
+      <article class="blog-card" data-animate="fade-up">
+        <div class="blog-card__img">
+          {% if post.cover_image %}
+          <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" loading="lazy">
+          {% else %}
+          <div class="blog-card__img-ph"><i class="bx bx-edit" aria-hidden="true"></i></div>
+          {% endif %}
+        </div>
+        <div class="blog-card__body">
+          {% if post.category %}
+          <a href="{{ post.category.get_absolute_url }}" class="blog-card__cat">{{ post.category.name }}</a>
+          {% endif %}
+          <h3 class="blog-card__title">
+            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+          </h3>
+          {% if post.excerpt %}
+          <p class="blog-card__excerpt">{{ post.excerpt|truncatechars:120 }}</p>
+          {% endif %}
+          <div class="blog-card__meta">
+            <span><i class="bx bx-user-circle" aria-hidden="true"></i> {{ post.author.display_name }}</span>
+            <span><i class="bx bx-time" aria-hidden="true"></i> {{ post.reading_time }} min</span>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+
+    <div class="text-center mt-8">
+      <a href="{% url 'blog:list' %}" class="btn btn--outline">
+        Lire tous les articles
+        <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+      </a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ── RÉFÉRENCE ASCAD ────────────────────────────────────── #}
+<section class="section" aria-label="Référence ASCAD">
+  <div class="container">
+    <div class="about__inner">
+
+      <div data-animate="fade-right">
+        <span class="section-eyebrow">Référence — Projet réalisé</span>
+        <h2 class="section-title">Cérémonie de remise des prix <em>ASCAD</em></h2>
+        <p class="about__text">
+          L'Académie des Sciences, des Arts, des Cultures d'Afrique et des Diasporas Africaines (ASCAD) nous a confié l'ensemble du volet digital de sa cérémonie de remise des prix, dont le thème était l'innovation technologique.
+        </p>
+
+        <div class="about__values">
+          <div class="about__value">
+            <div class="about__value-icon"><i class="bx bx-globe" aria-hidden="true"></i></div>
+            <div>
+              <div class="about__value-title">Site web catalogue en ligne</div>
+              <div class="about__value-desc">Programme complet et présentation des lauréats décorés, accessibles depuis n'importe quel appareil.</div>
+            </div>
+          </div>
+          <div class="about__value">
+            <div class="about__value-icon"><i class="bx bx-qr-scan" aria-hidden="true"></i></div>
+            <div>
+              <div class="about__value-title">QR code + affiches explicatives</div>
+              <div class="about__value-desc">Accès instantané au catalogue via QR code, avec affiches d'instructions adaptées à tous les publics, y compris les personnes âgées.</div>
+            </div>
+          </div>
+          <div class="about__value">
+            <div class="about__value-icon"><i class="bx bx-video" aria-hidden="true"></i></div>
+            <div>
+              <div class="about__value-title">Film institutionnel</div>
+              <div class="about__value-desc">Réalisation d'un film retraçant la genèse de l'ASCAD et présentant les candidats décorés lors de la cérémonie.</div>
+            </div>
+          </div>
+        </div>
+
+        <a href="{% url 'portfolio:list' %}" class="btn btn--primary mt-6">
+          Voir nos réalisations
+          <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+        </a>
+      </div>
+
+      <div data-animate="fade-left" style="display:flex;flex-direction:column;gap:1rem;">
+        <div class="about__visual">
+          <img src="{% static 'images/partners/ascad-ceremony-officielle.webp' %}" alt="Cérémonie officielle ASCAD — remise des prix" loading="lazy">
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem;padding:1rem;background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--r-lg);">
+          <img src="{% static 'images/partners/ascad-logo.jpg' %}" alt="Logo ASCAD" style="width:64px;height:64px;object-fit:contain;border-radius:var(--r);" loading="lazy">
+          <div>
+            <strong style="display:block;font-size:.9375rem;color:var(--dark);">ASCAD</strong>
+            <span style="font-size:.8125rem;color:var(--muted);">Académie des Sciences, des Arts, des Cultures d'Afrique et des Diasporas Africaines</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{# ── FAQ ────────────────────────────────────────────────── #}
+{% if faqs %}
+<section class="section section--alt" id="faq" aria-label="Questions fréquentes">
+  <div class="container">
+    <div class="faq-grid">
+      <div data-animate="fade-right">
+        <span class="section-eyebrow">FAQ</span>
+        <h2 class="section-title">Questions <em>fréquentes</em></h2>
+        <p class="section-sub" style="margin-bottom:1.5rem;">Vous ne trouvez pas la réponse ? Contactez-nous directement.</p>
+        <a href="{% url 'contact:index' %}" class="btn btn--primary">
+          Nous contacter
+          <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+        </a>
+      </div>
+      <div class="faq-list" data-animate="fade-left">
+        {% for faq in faqs %}
+        <details class="faq-item" {% if forloop.first %}open{% endif %}>
+          <summary class="faq-question">
+            {{ faq.question }}
+            <i class="bx bx-plus faq-icon" aria-hidden="true"></i>
+          </summary>
+          <div class="faq-answer">{{ faq.answer|linebreaksbr }}</div>
+        </details>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ── CTA ────────────────────────────────────────────────── #}
+<section class="cta-section" aria-label="Appel à l'action">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-content">
+        <h2 class="cta-content__title">Prêt à lancer votre projet digital ?</h2>
+        <p class="cta-content__sub">Discutons de votre vision. On construit ensemble la solution qui vous propulsera.</p>
+      </div>
+      <div class="cta-actions">
+        <a href="{% url 'contact:index' %}" class="btn btn--white btn--lg">
+          <i class="bx bx-message-square-dots" aria-hidden="true"></i>
+          Démarrer un projet
+        </a>
+        {% if site.whatsapp %}
+        <a href="https://wa.me/{{ site.whatsapp|cut:'+' }}" target="_blank" rel="noopener noreferrer" class="btn btn--outline btn--lg" style="border-color:rgba(255,255,255,.5);color:#fff;">
+          <i class="bx bxl-whatsapp" aria-hidden="true"></i>
+          WhatsApp
+        </a>
+        {% endif %}
+      </div>
+      <div class="cta-contacts">
+        {% if site.phone_main %}
+        <a href="tel:{{ site.phone_main }}" class="cta-contact-link">
+          <i class="bx bx-phone-call" aria-hidden="true"></i>
+          {{ site.phone_main }}
+        </a>
+        {% endif %}
+        {% if site.email_main %}
+        <a href="mailto:{{ site.email_main }}" class="cta-contact-link">
+          <i class="bx bx-envelope" aria-hidden="true"></i>
+          {{ site.email_main }}
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

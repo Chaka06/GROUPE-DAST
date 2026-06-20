@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}{{ service.title }} — {{ site.site_name }}{% endblock %}
+{% block meta_description %}{{ service.meta_description|default:service.short_description }}{% endblock %}
+
+{% block content %}
+
+<section class="page-hero page-hero--blue" aria-label="{{ service.title }}">
+  <div class="container">
+    <span class="section-eyebrow">Service</span>
+    <h1 class="page-hero__title">{{ service.title }}</h1>
+    <p class="page-hero__sub">{{ service.short_description }}</p>
+    <nav class="breadcrumb" aria-label="Fil d'Ariane" style="margin-top:.75rem;">
+      <ol>
+        <li><a href="{% url 'home:index' %}">Accueil</a></li>
+        <li><a href="{% url 'services:list' %}">Services</a></li>
+        <li aria-current="page">{{ service.title }}</li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<section class="section" aria-label="Détail du service">
+  <div class="container">
+    <div class="service-detail-layout">
+
+      <div class="prose" data-animate="fade-right">
+        <h2>Description du service</h2>
+        <div>{{ service.description|linebreaksbr }}</div>
+      </div>
+
+      <aside data-animate="fade-left">
+        {% if service.features.all %}
+        <div class="sidebar-card">
+          <h3 class="sidebar-card__title">
+            <i class="bx bx-list-check" aria-hidden="true"></i>
+            Ce que comprend ce service
+          </h3>
+          <div class="service-features-list">
+            {% for feature in service.features.all %}
+            <div class="service-feature-item">
+              <i class="{{ feature.icon_class|default:'bx bx-check-circle' }}" aria-hidden="true"></i>
+              <div>
+                <strong>{{ feature.title }}</strong>
+                {% if feature.description %}<p>{{ feature.description }}</p>{% endif %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="sidebar-card sidebar-card--cta">
+          <h3>Intéressé par ce service ?</h3>
+          <p>Contactez-nous pour obtenir un devis personnalisé adapté à vos besoins.</p>
+          <a href="{% url 'contact:index' %}" class="btn btn--white btn--block">
+            <i class="bx bx-message-square-dots" aria-hidden="true"></i>
+            Demander un devis
+          </a>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+{% if related_services %}
+<section class="section section--alt" aria-label="Autres services">
+  <div class="container">
+    <h2 class="section-title text-center" data-animate="fade-up">Autres services</h2>
+    <div class="services-grid mt-8">
+      {% for svc in related_services %}
+      <article class="svc-card" data-animate="fade-up">
+        <div class="svc-card__icon">
+          <i class="{{ svc.icon_class }}" aria-hidden="true"></i>
+        </div>
+        <h3 class="svc-card__title">{{ svc.title }}</h3>
+        <p class="svc-card__desc">{{ svc.short_description }}</p>
+        <a href="{{ svc.get_absolute_url }}" class="svc-card__link">
+          En savoir plus <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+        </a>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

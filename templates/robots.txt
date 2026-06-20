@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /dast/
+Disallow: /summernote/
+Disallow: /media/blog/editor/
+
+Sitemap: {{ request.scheme }}://{{ request.get_host }}/sitemap.xml

@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Notre Équipe — {{ site.site_name }}{% endblock %}
+{% block meta_description %}Découvrez l'équipe passionnée derrière DAST NEWGEN'SPARK — des experts du numérique dédiés à votre succès.{% endblock %}
+
+{% block content %}
+
+<section class="page-hero page-hero--blue" aria-label="Équipe">
+  <div class="container">
+    <span class="section-eyebrow">L'humain derrière la technologie</span>
+    <h1 class="page-hero__title">Notre <em style="font-style:normal;opacity:.85;">Équipe</em></h1>
+    <p class="page-hero__sub">Des passionnés du numérique réunis autour d'une vision commune : votre succès digital.</p>
+    <nav class="breadcrumb" aria-label="Fil d'Ariane" style="margin-top:.75rem;">
+      <ol>
+        <li><a href="{% url 'home:index' %}">Accueil</a></li>
+        <li aria-current="page">Équipe</li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+{# Galerie photos ASCAD #}
+<section class="section section--alt" aria-label="Photos équipe">
+  <div class="container">
+    <div class="text-center" data-animate="fade-up">
+      <span class="section-eyebrow">Notre équipe en images</span>
+      <h2 class="section-title">Des <em>moments forts</em></h2>
+    </div>
+    <div class="team-gallery mt-10" data-animate="fade-up">
+      <div class="team-gallery__item">
+        <img src="{% static 'images/team/team-1.jpg' %}" alt="Équipe DAST — Événement ASCAD" loading="lazy">
+      </div>
+      <div class="team-gallery__item">
+        <img src="{% static 'images/team/team-2.jpg' %}" alt="DAST — Networking ASCAD" loading="lazy">
+      </div>
+      <div class="team-gallery__item">
+        <img src="{% static 'images/team/team-3.jpg' %}" alt="DAST — Formation et excellence" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-label="Membres">
+  <div class="container">
+    <div class="text-center" data-animate="fade-up" style="margin-bottom:2.5rem;">
+      <span class="section-eyebrow">Les membres</span>
+      <h2 class="section-title">Faites connaissance avec <em>notre équipe</em></h2>
+    </div>
+    <div class="team-grid">
+      {% for member in members %}
+      <article class="team-card" data-animate="fade-up">
+        <div class="team-card__photo">
+          {% if member.avatar %}
+          <img src="{{ member.avatar.url }}" alt="{{ member.display_name }}" loading="lazy">
+          {% else %}
+          <div class="team-card__ph"><i class="bx bx-user" aria-hidden="true"></i></div>
+          {% endif %}
+          <div class="team-card__social">
+            {% if member.linkedin_url %}
+            <a href="{{ member.linkedin_url }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <i class="bx bxl-linkedin" aria-hidden="true"></i>
+            </a>
+            {% endif %}
+            {% if member.twitter_url %}
+            <a href="{{ member.twitter_url }}" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+              <i class="bx bxl-twitter" aria-hidden="true"></i>
+            </a>
+            {% endif %}
+            {% if member.github_url %}
+            <a href="{{ member.github_url }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+              <i class="bx bxl-github" aria-hidden="true"></i>
+            </a>
+            {% endif %}
+          </div>
+        </div>
+        <div class="team-card__body">
+          <h2 class="team-card__name">{{ member.display_name }}</h2>
+          {% if member.role_title %}
+          <p class="team-card__role">{{ member.role_title }}</p>
+          {% endif %}
+          {% if member.bio %}
+          <p class="team-card__bio">{{ member.bio|truncatechars:150 }}</p>
+          {% endif %}
+        </div>
+      </article>
+      {% empty %}
+      <div class="empty-state" style="grid-column:1/-1;">
+        <i class="bx bx-group" aria-hidden="true"></i>
+        <h2>L'équipe sera présentée prochainement</h2>
+        <p>Nos membres seront bientôt disponibles sur cette page.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" aria-label="Rejoindre l'équipe">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-content">
+        <h2 class="cta-content__title">Vous souhaitez rejoindre l'équipe ?</h2>
+        <p class="cta-content__sub">Nous sommes toujours à la recherche de talents passionnés par le numérique.</p>
+      </div>
+      <div class="cta-actions">
+        <a href="{% url 'contact:index' %}" class="btn btn--white btn--lg">
+          <i class="bx bx-send" aria-hidden="true"></i>
+          Postuler maintenant
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

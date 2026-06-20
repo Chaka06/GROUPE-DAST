@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  {% load static %}
+
+  {# ── SEO ─────────────────────────────────────────────────── #}
+  <title>{% block title %}{{ site.site_name }} — Agence Numérique en Côte d'Ivoire{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}{{ site.meta_description|default:"DAST NEWGEN'SPARK — Agence numérique ivoirienne spécialisée en développement web, marketing digital, communication et services numériques. Accompagnons votre transformation digitale." }}{% endblock %}">
+  <meta name="keywords" content="{% block meta_keywords %}{{ site.meta_keywords|default:"agence numérique Côte d'Ivoire, développement web Abidjan, marketing digital CI, communication digitale, création site web, SEO Côte d'Ivoire, DAST NEWGEN'SPARK" }}{% endblock %}">
+  <meta name="author" content="{{ site.site_name }}">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#2B7FD4">
+  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+
+  {# ── Open Graph ───────────────────────────────────────────── #}
+  {% block og_image_url %}{% if site.og_image %}{% with og_img=site.og_image.url %}{% endwith %}{% endif %}{% endblock %}
+  <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+  <meta property="og:title" content="{% block og_title %}{{ site.site_name }} — Agence Numérique en Côte d'Ivoire{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}{{ site.meta_description|default:"Agence numérique ivoirienne spécialisée en développement web, marketing digital, communication et services numériques." }}{% endblock %}">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <meta property="og:site_name" content="{{ site.site_name }}">
+  <meta property="og:image" content="{% block og_image %}{% if site.og_image %}{{ request.scheme }}://{{ request.get_host }}{{ site.og_image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/og/og-image.jpg' %}{% endif %}{% endblock %}">
+  <meta property="og:image:width" content="1440">
+  <meta property="og:image:height" content="960">
+  <meta property="og:image:alt" content="Équipe DAST NEWGEN'SPARK — Agence Numérique Côte d'Ivoire">
+  <meta property="og:locale" content="fr_FR">
+
+  {# ── Twitter Card ─────────────────────────────────────────── #}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{% block twitter_title %}{{ site.site_name }} — Agence Numérique en Côte d'Ivoire{% endblock %}">
+  <meta name="twitter:description" content="{% block twitter_description %}{{ site.meta_description|default:"Agence numérique ivoirienne spécialisée en développement web, marketing digital, communication et services numériques." }}{% endblock %}">
+  <meta name="twitter:image" content="{% block twitter_image %}{% if site.og_image %}{{ request.scheme }}://{{ request.get_host }}{{ site.og_image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/og/og-image.jpg' %}{% endif %}{% endblock %}">
+  <meta name="twitter:image:alt" content="Équipe DAST NEWGEN'SPARK">
+
+  {# ── Favicon ──────────────────────────────────────────────── #}
+  {% if site.favicon %}
+  <link rel="icon" type="image/png" href="{{ site.favicon.url }}">
+  {% else %}
+  <link rel="icon" type="image/png" sizes="512x512" href="{% static 'images/favicon/favicon-512.png' %}">
+  <link rel="icon" type="image/png" sizes="32x32"  href="{% static 'images/favicon/favicon-32.png' %}">
+  <link rel="icon" type="image/png" sizes="16x16"  href="{% static 'images/favicon/favicon-16.png' %}">
+  {% endif %}
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon/apple-touch-icon.png' %}">
+  <meta name="msapplication-TileImage" content="{% static 'images/favicon/favicon-512.png' %}">
+  <meta name="msapplication-TileColor" content="#2B7FD4">
+
+  {# ── JSON-LD Structured Data ──────────────────────────────── #}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "{{ site.site_name }}",
+    "description": "{{ site.meta_description|default:"Agence numérique ivoirienne spécialisée en développement web, marketing digital, communication et services numériques." }}",
+    "url": "{{ request.scheme }}://{{ request.get_host }}",
+    "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo/dast-logo.jpg' %}",
+    "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/og/og-image.jpg' %}",
+    "telephone": "{{ site.phone_main|default:"+225 0173176410" }}",
+    "email": "{{ site.email_main|default:"support@dastdigital.com" }}",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "CI",
+      "addressRegion": "Abidjan",
+      "addressLocality": "Côte d'Ivoire"
+    },
+    "sameAs": [
+      {% if site.facebook_url %}"{{ site.facebook_url }}"{% if site.instagram_url or site.linkedin_url %},{% endif %}{% endif %}
+      {% if site.instagram_url %}"{{ site.instagram_url }}"{% if site.linkedin_url %},{% endif %}{% endif %}
+      {% if site.linkedin_url %}"{{ site.linkedin_url }}"{% endif %}
+    ],
+    "priceRange": "$$",
+    "areaServed": "Côte d'Ivoire",
+    "serviceType": ["Développement Web", "Marketing Digital", "Communication", "Vidéo Institutionnelle", "Services Numériques"]
+  }
+  </script>
+
+  {# ── Fonts ────────────────────────────────────────────────── #}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  {# ── Boxicons ─────────────────────────────────────────────── #}
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+  {# ── Styles ───────────────────────────────────────────────── #}
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  {% block extra_css %}{% endblock %}
+
+  {# ── Analytics (production only) ──────────────────────────── #}
+  {% if not debug and site.google_tag_manager_id %}
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','{{ site.google_tag_manager_id }}');</script>
+  {% endif %}
+</head>
+
+<body class="{% block body_class %}{% endblock %}">
+
+  {% if not debug and site.google_tag_manager_id %}
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ site.google_tag_manager_id }}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  {% endif %}
+
+  {# ── Navigation ───────────────────────────────────────────── #}
+  {% include "components/navbar.html" %}
+
+  {# ── Flash Messages ───────────────────────────────────────── #}
+  {% if messages %}
+  <div class="messages-container" id="messages-container" aria-live="polite">
+    {% for message in messages %}
+    <div class="alert alert--{{ message.tags }}" role="alert">
+      <i class="bx {% if message.tags == 'success' %}bx-check-circle{% elif message.tags == 'error' %}bx-error-circle{% elif message.tags == 'warning' %}bx-error{% else %}bx-info-circle{% endif %}"></i>
+      <span>{{ message }}</span>
+      <button class="alert__close" aria-label="Fermer" onclick="this.parentElement.remove()">
+        <i class="bx bx-x"></i>
+      </button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {# ── Main Content ─────────────────────────────────────────── #}
+  <main id="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  {# ── Footer ───────────────────────────────────────────────── #}
+  {% include "components/footer.html" %}
+
+  {# ── Back to top ──────────────────────────────────────────── #}
+  <button class="back-to-top" id="backToTop" aria-label="Retour en haut">
+    <i class="bx bx-chevron-up"></i>
+  </button>
+
+  {# ── Scripts ──────────────────────────────────────────────── #}
+  <script src="{% static 'js/main.js' %}" defer></script>
+  {% block extra_js %}{% endblock %}
+
+</body>
+</html>
