@@ -16,7 +16,7 @@ build/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-staticfiles/
+# staticfiles/ intentionally not ignored — committed for Vercel deployment
 media/
 logs/*.log
 
