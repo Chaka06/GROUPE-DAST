@@ -44,24 +44,18 @@ if os.environ.get("USE_SUPABASE_STORAGE") == "True":
     AWS_S3_FILE_OVERWRITE = False
     MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/"
 
-# Créer le dossier logs automatiquement s'il n'existe pas
-import os as _os
-_logs_dir = BASE_DIR / "logs"
-_logs_dir.mkdir(exist_ok=True)
-
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "handlers": {
-        "file": {
+        "console": {
             "level": "ERROR",
-            "class": "logging.FileHandler",
-            "filename": str(_logs_dir / "django_errors.log"),
+            "class": "logging.StreamHandler",
         },
     },
     "loggers": {
         "django": {
-            "handlers": ["file"],
+            "handlers": ["console"],
             "level": "ERROR",
             "propagate": True,
         },
