@@ -11,6 +11,7 @@ class Service(models.Model):
     short_description = models.CharField(max_length=250, verbose_name=_("Description courte"))
     description = models.TextField(verbose_name=_("Description détaillée"))
     cover_image = models.ImageField(upload_to="services/covers/", null=True, blank=True, verbose_name=_("Image de couverture"))
+    cover_static = models.CharField(max_length=200, blank=True, default="", verbose_name=_("Image statique (chemin dans /static/)"))
     color_accent = models.CharField(max_length=7, default="#2B7FD4", verbose_name=_("Couleur accent (hex)"))
     featured = models.BooleanField(default=False, verbose_name=_("Mis en avant"))
     order = models.PositiveIntegerField(default=0, verbose_name=_("Ordre"))

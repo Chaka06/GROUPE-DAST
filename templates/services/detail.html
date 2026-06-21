@@ -4,7 +4,7 @@
 {% block meta_description %}{{ service.meta_description|default:service.short_description }}{% endblock %}
 {% block og_title %}{{ service.title }} — {{ site.site_name }}{% endblock %}
 {% block og_description %}{{ service.meta_description|default:service.short_description }}{% endblock %}
-{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/og/og-image.jpg' %}{% endblock %}
+{% block og_image %}{% if service.cover_image %}{{ request.scheme }}://{{ request.get_host }}{{ service.cover_image.url }}{% elif service.cover_static %}{{ request.scheme }}://{{ request.get_host }}{% static service.cover_static %}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/og/og-image.jpg' %}{% endif %}{% endblock %}
 {% block twitter_title %}{{ service.title }} — {{ site.site_name }}{% endblock %}
 {% block twitter_description %}{{ service.meta_description|default:service.short_description }}{% endblock %}
 
@@ -29,9 +29,20 @@
   <div class="container">
     <div class="service-detail-layout">
 
-      <div class="prose" data-animate="fade-right">
-        <h2>Description du service</h2>
-        <div>{{ service.description|linebreaksbr }}</div>
+      <div data-animate="fade-right">
+        {% if service.cover_image %}
+        <div class="article-cover" style="margin-bottom:1.5rem;">
+          <img src="{{ service.cover_image.url }}" alt="{{ service.title }}" loading="eager" style="width:100%;border-radius:var(--radius-lg);object-fit:cover;max-height:380px;">
+        </div>
+        {% elif service.cover_static %}
+        <div class="article-cover" style="margin-bottom:1.5rem;">
+          <img src="{% static service.cover_static %}" alt="{{ service.title }}" loading="eager" style="width:100%;border-radius:var(--radius-lg);object-fit:cover;max-height:380px;">
+        </div>
+        {% endif %}
+        <div class="prose">
+          <h2>Description du service</h2>
+          <div>{{ service.description|linebreaksbr }}</div>
+        </div>
       </div>
 
       <aside data-animate="fade-left">
