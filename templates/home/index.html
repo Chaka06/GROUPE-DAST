@@ -348,6 +348,8 @@
         <div class="project-card__img-wrap">
           {% if project.cover_image %}
           <img src="{{ project.cover_image.url }}" alt="{{ project.title }}" loading="lazy">
+          {% elif project.cover_static %}
+          <img src="{% static project.cover_static %}" alt="{{ project.title }}" loading="lazy">
           {% else %}
           <div class="project-card__no-img"><i class="bx bx-image" aria-hidden="true"></i></div>
           {% endif %}
