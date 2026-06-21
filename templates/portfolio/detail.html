@@ -2,6 +2,14 @@
 {% load static %}
 {% block title %}{{ project.title }} — {{ site.site_name }}{% endblock %}
 {% block meta_description %}{{ project.short_description }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_title %}{{ project.title }} — {{ site.site_name }}{% endblock %}
+{% block og_description %}{{ project.short_description }}{% endblock %}
+{% block og_image %}{% if project.cover_image %}{{ request.scheme }}://{{ request.get_host }}{{ project.cover_image.url }}{% elif project.cover_static %}{{ request.scheme }}://{{ request.get_host }}{% static project.cover_static %}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/og/og-image.jpg' %}{% endif %}{% endblock %}
+{% block og_image_alt %}{{ project.title }} — Réalisation DAST NEWGEN'SPARK{% endblock %}
+{% block twitter_title %}{{ project.title }} — {{ site.site_name }}{% endblock %}
+{% block twitter_description %}{{ project.short_description }}{% endblock %}
+{% block twitter_image %}{% if project.cover_image %}{{ request.scheme }}://{{ request.get_host }}{{ project.cover_image.url }}{% elif project.cover_static %}{{ request.scheme }}://{{ request.get_host }}{% static project.cover_static %}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/og/og-image.jpg' %}{% endif %}{% endblock %}
 
 {% block content %}
 
