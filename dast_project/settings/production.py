@@ -8,11 +8,20 @@ ALLOWED_HOSTS = os.environ.get(
     "dastdigital.com,www.dastdigital.com"
 ).split(",")
 
+# Ajouter automatiquement l'URL de preview Vercel (unique par déploiement)
+_vercel_url = os.environ.get("VERCEL_URL", "")
+if _vercel_url and _vercel_url not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(_vercel_url)
+
+# Autoriser tous les sous-domaines *.vercel.app pour les previews
+ALLOWED_HOSTS.append(".vercel.app")
+
 SITE_URL = os.environ.get("SITE_URL", "https://dastdigital.com")
 
 CSRF_TRUSTED_ORIGINS = [
     "https://dastdigital.com",
     "https://www.dastdigital.com",
+    "https://*.vercel.app",
 ] + [
     f"https://{h.strip()}"
     for h in os.environ.get("ALLOWED_HOSTS", "").split(",")
