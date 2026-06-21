@@ -15,7 +15,7 @@ def create_owner_account(sender, **kwargs):
     from .models import User
 
     username = os.environ.get("SUPER_ADMIN_USERNAME", "dast_owner")
-    email = os.environ.get("SUPER_ADMIN_EMAIL", "dastnewgenspark@gmail.com")
+    email = os.environ.get("SUPER_ADMIN_EMAIL", "contact@dastdigital.com")
     password = os.environ.get("SUPER_ADMIN_PASSWORD", "")
     first_name = os.environ.get("SUPER_ADMIN_FIRST_NAME", "SABY")
     last_name = os.environ.get("SUPER_ADMIN_LAST_NAME", "Ange Noël")

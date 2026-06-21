@@ -35,7 +35,7 @@ class Command(BaseCommand):
                 "Nous combinons créativité, technologie et stratégie pour livrer des solutions digitales qui font la différence. "
                 "Chaque projet est une opportunité de créer quelque chose d'exceptionnel."
             )
-            obj.email_main     = "dastnewgenspark@gmail.com"
+            obj.email_main     = "contact@dastdigital.com"
             obj.phone_main     = "+225 0173176410"
             obj.whatsapp       = "+2250173176410"
             obj.meta_description = (
@@ -216,7 +216,7 @@ class Command(BaseCommand):
             self.stdout.write("  Compte propriétaire déjà existant")
             return
         username  = os.environ.get("SUPER_ADMIN_USERNAME", "dast_owner")
-        email     = os.environ.get("SUPER_ADMIN_EMAIL", "dastnewgenspark@gmail.com")
+        email     = os.environ.get("SUPER_ADMIN_EMAIL", "contact@dastdigital.com")
         password  = os.environ.get("SUPER_ADMIN_PASSWORD", "DastAdmin2024!")
         first_name = os.environ.get("SUPER_ADMIN_FIRST_NAME", "SABY")
         last_name  = os.environ.get("SUPER_ADMIN_LAST_NAME", "Ange Noël")

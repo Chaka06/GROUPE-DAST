@@ -21,7 +21,7 @@ class SiteSettings(models.Model):
     og_image = models.ImageField(upload_to="core/og/", null=True, blank=True, verbose_name=_("Image Open Graph"))
 
     # Contact
-    email_main = models.EmailField(blank=True, default="dastnewgenspark@gmail.com", verbose_name=_("Email principal"))
+    email_main = models.EmailField(blank=True, default="contact@dastdigital.com", verbose_name=_("Email principal"))
     email_secondary = models.EmailField(blank=True, verbose_name=_("Email secondaire"))
     phone_main = models.CharField(max_length=30, blank=True, default="+225 0173176410", verbose_name=_("Téléphone principal"))
     phone_secondary = models.CharField(max_length=30, blank=True, verbose_name=_("Téléphone secondaire"))
