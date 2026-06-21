@@ -31,18 +31,29 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
-# Supabase Storage for media in production
+# Supabase Storage for media in production (Django 4.2+ STORAGES format)
 if os.environ.get("USE_SUPABASE_STORAGE") == "True":
-    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
-    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-    AWS_S3_ENDPOINT_URL = os.environ.get("AWS_S3_ENDPOINT_URL")
-    AWS_STORAGE_BUCKET_NAME = os.environ.get("SUPABASE_STORAGE_BUCKET", "dast-media")
-    AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME", "auto")
-    AWS_DEFAULT_ACL = "public-read"
-    AWS_QUERYSTRING_AUTH = False
-    AWS_S3_FILE_OVERWRITE = False
-    MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/"
+    _s3_endpoint = os.environ.get("AWS_S3_ENDPOINT_URL", "")
+    _s3_bucket = os.environ.get("SUPABASE_STORAGE_BUCKET", "dast-media")
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+            "OPTIONS": {
+                "access_key": os.environ.get("AWS_ACCESS_KEY_ID"),
+                "secret_key": os.environ.get("AWS_SECRET_ACCESS_KEY"),
+                "endpoint_url": _s3_endpoint,
+                "bucket_name": _s3_bucket,
+                "region_name": os.environ.get("AWS_S3_REGION_NAME", "eu-central-1"),
+                "default_acl": "public-read",
+                "querystring_auth": False,
+                "file_overwrite": False,
+            },
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        },
+    }
+    MEDIA_URL = f"{_s3_endpoint}/{_s3_bucket}/"
 
 LOGGING = {
     "version": 1,
