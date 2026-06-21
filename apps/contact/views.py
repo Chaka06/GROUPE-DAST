@@ -36,7 +36,7 @@ def contact_success(request):
 
 
 def _send_notification(msg: ContactMessage):
-    """Send email notification to DAST team. Fails silently if SMTP not configured."""
+    """Send email notification to DAST team."""
     try:
         html_body = render_to_string("contact/email_notification.html", {"msg": msg})
         send_mail(
@@ -45,7 +45,7 @@ def _send_notification(msg: ContactMessage):
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[settings.CONTACT_EMAIL],
             html_message=html_body,
-            fail_silently=True,
+            fail_silently=False,
         )
     except Exception as exc:
-        logger.warning("Contact email not sent: %s", exc)
+        logger.error("DAST contact email ERROR: %s", exc, exc_info=True)
