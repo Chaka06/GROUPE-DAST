@@ -4,7 +4,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 
 from apps.blog.sitemaps import PostSitemap, CategorySitemap
 from apps.portfolio.sitemaps import ProjectSitemap
@@ -32,6 +32,7 @@ urlpatterns = [
     # ── SEO ───────────────────────────────────────────────────────────────
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="django.contrib.sitemaps.views.sitemap"),
     path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
+    path("favicon.ico", RedirectView.as_view(url="/static/images/favicon/favicon-32.png", permanent=True), name="favicon"),
 
     # ── Summernote ────────────────────────────────────────────────────────
     path("summernote/", include("django_summernote.urls")),

@@ -1,6 +1,12 @@
 {% extends "base.html" %}
-{% block title %}Blog — {{ site.site_name }}{% endblock %}
-{% block meta_description %}Actualités, conseils et ressources numériques par DAST NEWGEN'SPARK.{% endblock %}
+{% load static %}
+{% block title %}Blog Digital & Conseils Numériques en Côte d'Ivoire — {{ site.site_name }}{% endblock %}
+{% block meta_description %}Conseils en développement web, marketing digital et transformation numérique en Côte d'Ivoire. Restez à la pointe du digital avec DAST NEWGEN'SPARK.{% endblock %}
+{% block og_title %}Blog Digital — Conseils & Actualités Numériques — {{ site.site_name }}{% endblock %}
+{% block og_description %}Conseils, tendances et tutoriels en développement web et marketing digital pour les entreprises en Côte d'Ivoire.{% endblock %}
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/og/og-image.jpg' %}{% endblock %}
+{% block twitter_title %}Blog Digital & Conseils Numériques — {{ site.site_name }}{% endblock %}
+{% block twitter_description %}Conseils en développement web, marketing digital et transformation numérique en Côte d'Ivoire.{% endblock %}
 
 {% block content %}
 

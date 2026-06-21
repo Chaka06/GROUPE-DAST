@@ -56,13 +56,22 @@
 
       <div class="hero__visual" aria-hidden="true" data-animate="fade-left">
         <div class="hero__photo hero__photo--wide">
-          <img src="{% static 'images/team/team-1.jpg' %}" alt="Équipe DAST NEWGEN'SPARK" loading="eager">
+          <picture>
+            <source srcset="{% static 'images/team/team-1.webp' %}" type="image/webp">
+            <img src="{% static 'images/team/team-1.jpg' %}" alt="Équipe DAST NEWGEN'SPARK — agence numérique à Abidjan, Côte d'Ivoire" loading="eager" fetchpriority="high" width="1200" height="675">
+          </picture>
         </div>
         <div class="hero__photo">
-          <img src="{% static 'images/team/team-2.jpg' %}" alt="DAST en action" loading="eager">
+          <picture>
+            <source srcset="{% static 'images/team/team-2.webp' %}" type="image/webp">
+            <img src="{% static 'images/team/team-2.jpg' %}" alt="L'équipe DAST en action — développement web et marketing digital à Abidjan" loading="eager" width="800" height="600">
+          </picture>
         </div>
         <div class="hero__photo">
-          <img src="{% static 'images/team/team-3.jpg' %}" alt="DAST NEWGEN'SPARK" loading="eager">
+          <picture>
+            <source srcset="{% static 'images/team/team-3.webp' %}" type="image/webp">
+            <img src="{% static 'images/team/team-3.jpg' %}" alt="Professionnels du numérique ivoiriens — DAST NEWGEN'SPARK" loading="eager" width="800" height="600">
+          </picture>
         </div>
       </div>
 
@@ -223,7 +232,7 @@
         <h3 class="svc-card__title">{{ service.title }}</h3>
         <p class="svc-card__desc">{{ service.short_description }}</p>
         <a href="{{ service.get_absolute_url }}" class="svc-card__link">
-          En savoir plus <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+          Découvrir {{ service.title }} <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
         </a>
       </article>
       {% empty %}

@@ -1,6 +1,12 @@
 {% extends "base.html" %}
-{% block title %}Nos Services — {{ site.site_name }}{% endblock %}
-{% block meta_description %}Découvrez tous les services proposés par DAST NEWGEN'SPARK : développement web, marketing digital, communication et services numériques.{% endblock %}
+{% load static %}
+{% block title %}Développement Web & Marketing Digital Abidjan — {{ site.site_name }}{% endblock %}
+{% block meta_description %}Agence numérique à Abidjan : développement web sur mesure, marketing digital, communication et vidéo institutionnelle en Côte d'Ivoire. Devis gratuit sous 24h.{% endblock %}
+{% block og_title %}Nos Services Numériques — {{ site.site_name }}{% endblock %}
+{% block og_description %}Développement web, marketing digital, communication, vidéo et services numériques sur mesure à Abidjan, Côte d'Ivoire. Devis gratuit sous 24h.{% endblock %}
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/og/og-image.jpg' %}{% endblock %}
+{% block twitter_title %}Nos Services Numériques — {{ site.site_name }}{% endblock %}
+{% block twitter_description %}Développement web, marketing digital, communication et vidéo institutionnelle à Abidjan. Devis gratuit sous 24h.{% endblock %}
 
 {% block content %}
 
@@ -39,7 +45,7 @@
         </ul>
         {% endif %}
         <a href="{{ service.get_absolute_url }}" class="svc-card__link">
-          Découvrir <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+          Découvrir {{ service.title }} <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
         </a>
       </article>
       {% empty %}

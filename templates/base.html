@@ -13,27 +13,33 @@
   <meta name="author" content="{{ site.site_name }}">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#2B7FD4">
-  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+  {# Canonical sans query string — critique pour Google #}
+  <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+  {# Local SEO #}
+  <meta name="geo.region" content="CI">
+  <meta name="geo.placename" content="Abidjan, Côte d'Ivoire">
+  <meta name="language" content="fr">
 
   {# ── Open Graph ───────────────────────────────────────────── #}
-  {% block og_image_url %}{% if site.og_image %}{% with og_img=site.og_image.url %}{% endwith %}{% endif %}{% endblock %}
   <meta property="og:type" content="{% block og_type %}website{% endblock %}">
   <meta property="og:title" content="{% block og_title %}{{ site.site_name }} — Agence Numérique en Côte d'Ivoire{% endblock %}">
   <meta property="og:description" content="{% block og_description %}{{ site.meta_description|default:"Agence numérique ivoirienne spécialisée en développement web, marketing digital, communication et services numériques." }}{% endblock %}">
-  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
   <meta property="og:site_name" content="{{ site.site_name }}">
   <meta property="og:image" content="{% block og_image %}{% if site.og_image %}{{ request.scheme }}://{{ request.get_host }}{{ site.og_image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/og/og-image.jpg' %}{% endif %}{% endblock %}">
+  <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1440">
   <meta property="og:image:height" content="960">
-  <meta property="og:image:alt" content="Équipe DAST NEWGEN'SPARK — Agence Numérique Côte d'Ivoire">
+  <meta property="og:image:alt" content="{% block og_image_alt %}Équipe DAST NEWGEN'SPARK — Agence Numérique Côte d'Ivoire{% endblock %}">
   <meta property="og:locale" content="fr_FR">
 
   {# ── Twitter Card ─────────────────────────────────────────── #}
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@dastnewgenspark">
   <meta name="twitter:title" content="{% block twitter_title %}{{ site.site_name }} — Agence Numérique en Côte d'Ivoire{% endblock %}">
   <meta name="twitter:description" content="{% block twitter_description %}{{ site.meta_description|default:"Agence numérique ivoirienne spécialisée en développement web, marketing digital, communication et services numériques." }}{% endblock %}">
   <meta name="twitter:image" content="{% block twitter_image %}{% if site.og_image %}{{ request.scheme }}://{{ request.get_host }}{{ site.og_image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/og/og-image.jpg' %}{% endif %}{% endblock %}">
-  <meta name="twitter:image:alt" content="Équipe DAST NEWGEN'SPARK">
+  <meta name="twitter:image:alt" content="{% block twitter_image_alt %}Équipe DAST NEWGEN'SPARK{% endblock %}">
 
   {# ── Favicon ──────────────────────────────────────────────── #}
   {% if site.favicon %}
@@ -52,33 +58,62 @@
   {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
+    "@id": "{{ request.scheme }}://{{ request.get_host }}/#organization",
     "name": "{{ site.site_name }}",
     "description": "{{ site.meta_description|default:"Agence numérique ivoirienne spécialisée en développement web, marketing digital, communication et services numériques." }}",
     "url": "{{ request.scheme }}://{{ request.get_host }}",
-    "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo/dast-logo.jpg' %}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo/dast-logo.jpg' %}"
+    },
     "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/og/og-image.jpg' %}",
     "telephone": "{{ site.phone_main|default:"+225 0173176410" }}",
-    "email": "{{ site.email_main|default:"support@dastdigital.com" }}",
+    "email": "{{ site.email_main|default:"contact@dastdigital.com" }}",
     "address": {
       "@type": "PostalAddress",
-      "addressCountry": "CI",
-      "addressRegion": "Abidjan",
-      "addressLocality": "Côte d'Ivoire"
+      "streetAddress": "Abidjan",
+      "addressLocality": "Abidjan",
+      "addressRegion": "Lagunes",
+      "addressCountry": "CI"
     },
-    "sameAs": [
-      {% if site.facebook_url %}"{{ site.facebook_url }}"{% if site.instagram_url or site.linkedin_url %},{% endif %}{% endif %}
-      {% if site.instagram_url %}"{{ site.instagram_url }}"{% if site.linkedin_url %},{% endif %}{% endif %}
-      {% if site.linkedin_url %}"{{ site.linkedin_url }}"{% endif %}
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "5.3599517",
+      "longitude": "-4.0082563"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+        "opens": "08:00",
+        "closes": "18:00"
+      }
     ],
+    "foundingDate": "2023",
     "priceRange": "$$",
-    "areaServed": "Côte d'Ivoire",
-    "serviceType": ["Développement Web", "Marketing Digital", "Communication", "Vidéo Institutionnelle", "Services Numériques"]
+    "areaServed": {
+      "@type": "Country",
+      "name": "Côte d'Ivoire"
+    },
+    "serviceType": ["Développement Web", "Marketing Digital", "Communication", "Vidéo Institutionnelle", "Services Numériques"],
+    "sameAs": [{% if site.facebook_url %}"{{ site.facebook_url }}"{% endif %}{% if site.instagram_url %}{% if site.facebook_url %},{% endif %}"{{ site.instagram_url }}"{% endif %}{% if site.linkedin_url %}{% if site.facebook_url or site.instagram_url %},{% endif %}"{{ site.linkedin_url }}"{% endif %}{% if site.tiktok_url %}{% if site.facebook_url or site.instagram_url or site.linkedin_url %},{% endif %}"{{ site.tiktok_url }}"{% endif %}]
   }
   </script>
+  {% block extra_schema %}{% endblock %}
 
-  {# ── Fonts ────────────────────────────────────────────────── #}
+  {# ── Manifest PWA ─────────────────────────────────────────── #}
+  <link rel="manifest" href="{% static 'manifest.json' %}">
+
+  {# ── Preconnect ressources tierces ────────────────────────── #}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <link rel="dns-prefetch" href="https://unpkg.com">
+
+  {# ── Preload image LCP (hero principal) ───────────────────── #}
+  <link rel="preload" as="image" href="{% static 'images/team/team-1.webp' %}" type="image/webp">
+
+  {# ── Fonts ────────────────────────────────────────────────── #}
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   {# ── Boxicons ─────────────────────────────────────────────── #}

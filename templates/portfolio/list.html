@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Portfolio — {{ site.site_name }}{% endblock %}
-{% block meta_description %}Découvrez les réalisations de DAST NEWGEN'SPARK : sites web, applications, campagnes marketing et bien plus encore.{% endblock %}
+{% block title %}Nos Réalisations — Sites Web & Projets Digitaux Côte d'Ivoire — {{ site.site_name }}{% endblock %}
+{% block meta_description %}Découvrez les projets réalisés par DAST NEWGEN'SPARK : sites web, applications, campagnes marketing et vidéos en Côte d'Ivoire. Inspirez-vous de nos réalisations.{% endblock %}
+{% block og_title %}Portfolio — Réalisations Digitales — {{ site.site_name }}{% endblock %}
+{% block og_description %}Sites web, applications, campagnes marketing et vidéos réalisés en Côte d'Ivoire. Découvrez nos projets digitaux.{% endblock %}
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/og/og-image.jpg' %}{% endblock %}
+{% block twitter_title %}Portfolio — Réalisations Digitales — {{ site.site_name }}{% endblock %}
+{% block twitter_description %}Sites web, applications, campagnes marketing et vidéos institutionnelles réalisés en Côte d'Ivoire.{% endblock %}
 
 {% block content %}
 
