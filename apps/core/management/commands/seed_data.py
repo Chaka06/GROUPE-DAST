@@ -140,6 +140,20 @@ class Command(BaseCommand):
                 ],
                 "order": 4,
             },
+            {
+                "title": "Vidéo Institutionnelle",
+                "icon": "bx bx-video",
+                "color": "#E63946",
+                "short": "Production audiovisuelle professionnelle pour valoriser votre image de marque.",
+                "description": "Nous réalisons des vidéos institutionnelles, des spots publicitaires et des contenus audiovisuels de qualité professionnelle. Notre équipe prend en charge l'intégralité de la production : conception, tournage, montage et post-production. Des vidéos percutantes qui racontent l'histoire de votre marque et captivent votre audience.",
+                "features": [
+                    ("bx bx-check", "Films institutionnels", "Présentez votre entreprise avec impact."),
+                    ("bx bx-check", "Spots publicitaires", "Des contenus créatifs pour vos campagnes."),
+                    ("bx bx-check", "Motion design & animation", "Donnez vie à vos idées en mouvement."),
+                    ("bx bx-check", "Couverture d'événements", "Immortalisez vos événements professionnels."),
+                ],
+                "order": 5,
+            },
         ]
         for data in services_data:
             svc = Service.objects.create(
