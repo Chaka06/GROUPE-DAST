@@ -73,6 +73,9 @@ address { font-style: normal; }
 figure { margin: 0; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
 
+/* Prevent double-tap zoom on touch devices */
+html { touch-action: manipulation; }
+
 /* Prevent mobile auto-zoom on inputs */
 input, textarea, select, button {
   font-size: 16px;
@@ -648,7 +651,9 @@ input, textarea, select, button {
   object-fit: cover;
   transition: transform .4s var(--ease);
 }
-.team-gallery__item:hover img { transform: scale(1.03); }
+@media (hover: hover) {
+  .team-gallery__item:hover img { transform: scale(1.03); }
+}
 
 /* ── 13. PORTFOLIO CARDS ───────────────────────────────── */
 .portfolio-grid {
@@ -1436,7 +1441,15 @@ select.form-control {
 /* ── 35. RESPONSIVE ────────────────────────────────────── */
 @media (max-width: 1024px) {
   .hero__inner        { grid-template-columns: 1fr; }
-  .hero__visual       { display: none; }
+  .hero__visual {
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+    margin-top: 1.5rem;
+    height: 140px;
+  }
+  .hero__photo--wide { flex: 2; min-width: 0; }
+  .hero__photo:not(.hero__photo--wide) { flex: 1; min-width: 0; }
   .about__inner       { grid-template-columns: 1fr; }
   .about__visual      { aspect-ratio: 16/9; }
   .about__visual img  { height: auto; }
@@ -1484,6 +1497,7 @@ select.form-control {
 @media (max-width: 480px) {
   .team-grid        { grid-template-columns: 1fr; }
   .team-gallery     { grid-template-columns: 1fr; }
+  .hero__visual     { height: 100px; }
   .hero__title      { font-size: 1.875rem; }
   .page-hero__title { font-size: 1.625rem; }
   .section-title    { font-size: 1.5rem; }
