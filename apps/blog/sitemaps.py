@@ -19,3 +19,7 @@ class CategorySitemap(Sitemap):
 
     def items(self):
         return Category.objects.all()
+
+    def lastmod(self, obj):
+        latest = obj.posts.filter(status="published").order_by("-updated_at").first()
+        return latest.updated_at if latest else None

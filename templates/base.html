@@ -67,13 +67,14 @@
       "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo/dast-logo.jpg' %}"
     },
     "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/og/og-image.jpg' %}",
-    "telephone": "{{ site.phone_main|default:"+225 0173176410" }}",
+    "telephone": "{{ site.phone_main|default:"+2250173176410" }}",
     "email": "{{ site.email_main|default:"contact@dastdigital.com" }}",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Abidjan",
+      "streetAddress": "Cocody",
       "addressLocality": "Abidjan",
       "addressRegion": "Lagunes",
+      "postalCode": "00225",
       "addressCountry": "CI"
     },
     "geo": {
@@ -91,10 +92,11 @@
     ],
     "foundingDate": "2023",
     "priceRange": "$$",
-    "areaServed": {
-      "@type": "Country",
-      "name": "Côte d'Ivoire"
-    },
+    "areaServed": [
+      {"@type": "City", "name": "Abidjan"},
+      {"@type": "Country", "name": "Côte d'Ivoire"}
+    ],
+    "hasMap": "https://maps.google.com/?q=Abidjan,Côte+d'Ivoire",
     "serviceType": ["Développement Web", "Marketing Digital", "Communication", "Vidéo Institutionnelle", "Services Numériques"],
     "sameAs": [{% if site.facebook_url %}"{{ site.facebook_url }}"{% endif %}{% if site.instagram_url %}{% if site.facebook_url %},{% endif %}"{{ site.instagram_url }}"{% endif %}{% if site.linkedin_url %}{% if site.facebook_url or site.instagram_url %},{% endif %}"{{ site.linkedin_url }}"{% endif %}{% if site.tiktok_url %}{% if site.facebook_url or site.instagram_url or site.linkedin_url %},{% endif %}"{{ site.tiktok_url }}"{% endif %}]
   }
@@ -113,11 +115,15 @@
   {# ── Preload image LCP (hero principal) ───────────────────── #}
   <link rel="preload" as="image" href="{% static 'images/team/team-1.webp' %}" type="image/webp">
 
-  {# ── Fonts ────────────────────────────────────────────────── #}
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  {# ── Fonts (non-bloquant) ─────────────────────────────────── #}
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 
-  {# ── Boxicons ─────────────────────────────────────────────── #}
-  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  {# ── Boxicons (non-bloquant) ──────────────────────────────── #}
+  <link rel="preload" as="style" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"></noscript>
 
   {# ── Styles ───────────────────────────────────────────────── #}
   <link rel="stylesheet" href="{% static 'css/main.css' %}">

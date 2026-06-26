@@ -1,8 +1,46 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}{{ site.site_name }} — Agence Numérique en Côte d'Ivoire{% endblock %}
-{% block meta_description %}{{ site.meta_description|default:"DAST NEWGEN'SPARK — Agence numérique spécialisée en développement web, marketing digital, communication et services numériques en Côte d'Ivoire." }}{% endblock %}
+{% block title %}{{ site.site_name }} — Agence Numérique à Abidjan, Côte d'Ivoire{% endblock %}
+{% block meta_description %}{{ site.meta_description|default:"DAST NEWGEN'SPARK — Agence numérique à Abidjan spécialisée en développement web, marketing digital, communication et services numériques en Côte d'Ivoire." }}{% endblock %}
+
+{% block extra_schema %}
+{% if faqs %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for faq in faqs %}
+    {
+      "@type": "Question",
+      "name": "{{ faq.question|escapejs }}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ faq.answer|striptags|escapejs }}"
+      }
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "{{ request.scheme }}://{{ request.get_host }}/#webpage",
+  "url": "{{ request.scheme }}://{{ request.get_host }}/",
+  "name": "{{ site.site_name }} — Agence Numérique à Abidjan, Côte d'Ivoire",
+  "description": "{{ site.meta_description|default:"Agence numérique ivoirienne spécialisée en développement web, marketing digital et communication à Abidjan." }}",
+  "isPartOf": {"@id": "{{ request.scheme }}://{{ request.get_host }}/#organization"},
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "{{ request.scheme }}://{{ request.get_host }}/"}]
+  }
+}
+</script>
+{% endblock %}
 
 {% block content %}
 
@@ -37,10 +75,10 @@
           {% endwith %}
         {% else %}
           <h1 class="hero__title">
-            Votre partenaire pour la <em>transformation numérique</em>
+            Agence Numérique à <em>Abidjan</em> — Votre partenaire pour la transformation digitale en Côte d'Ivoire
           </h1>
           <p class="hero__desc">
-            DAST NEWGEN'SPARK est une agence de jeunes professionnels ivoiriens qui accompagne les entreprises en développement web, marketing digital, communication et vidéo institutionnelle.
+            DAST NEWGEN'SPARK est une agence numérique ivoirienne basée à Abidjan qui accompagne les entreprises en développement web, marketing digital, communication et vidéo institutionnelle.
           </p>
           <div class="hero__actions">
             <a href="{% url 'services:list' %}" class="btn btn--primary btn--lg">

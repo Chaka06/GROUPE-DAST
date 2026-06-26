@@ -51,10 +51,12 @@ class Project(models.Model):
     client_name = models.CharField(max_length=150, blank=True, verbose_name=_("Nom du client"))
     project_url = models.URLField(blank=True, verbose_name=_("Lien vers le projet"))
     github_url = models.URLField(blank=True, verbose_name=_("Lien GitHub"))
+    meta_description = models.CharField(max_length=300, blank=True, verbose_name=_("Meta description SEO"))
     featured = models.BooleanField(default=False, verbose_name=_("Mis en avant"))
     order = models.PositiveIntegerField(default=0, verbose_name=_("Ordre"))
     is_active = models.BooleanField(default=True, verbose_name=_("Actif"))
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = _("Projet")
